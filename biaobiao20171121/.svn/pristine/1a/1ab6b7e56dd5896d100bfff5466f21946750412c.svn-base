@@ -1,0 +1,433 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>今日头条</title>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+	<style>
+		body{  background-color:#ebebeb; }
+		div.flex-wrap{  -webkit-box-orient: vertical; -webkit-flex-flow: column; flex-flow: column;  height:100%; }
+		div.flex-con{ overflow:auto; }
+		.information{ line-height:20px; font-size:.8rem; padding:0 10px;  color:#a9a9a9; position: relative; z-index: 1; }
+		.information span{ float:right; }
+
+		.login{ background-color: #32495d; padding: 15px 0;  }
+		.login nav{ overflow: hidden; }
+		.login nav p{ width: 25%; float: left; text-align: center; }
+		.login nav p img{ width: 60%; }
+		.login .btn{ text-align: center;	padding: 10px 0;  }
+		.login .btn span{ border: 1px solid #4e5b66; border-radius: 4px; color: #7e8790; padding: 4px 6px; }
+		
+		.top{ background-color: white;  line-height:42px;  text-align:center; color:#5d5d5d; font-size:1.2rem; position:relative; }
+		.top span{ width:42px; height:42px; display:block; position:absolute; bottom:0; right:0; font-size:.8rem;  }
+		
+		.title{  background-color:#ebebeb; min-height:20px; }
+		
+		.find { background-color: white; }
+		.find li{ padding:0 10px; }
+		.find li.border-b:after{ left:10px; right:10px; }
+		.find li.hover{ background-color:#f5f5f5; }
+		.find li .con{ padding-left:8px; position:relative; overflow:hidden;  }
+		.find li .con h6{ color:#525252; line-height: 42px; font-size: 1.1rem;  }
+		.find li .con h6 span{ color: #b9b9b9; font-size: .8rem; padding-left: 10px; }
+		.find li .con .switch{ position:absolute; right: 0; top: 50%; margin-top: -12px; z-index: 2; }
+		.find li .pic{ width:35px; background-repeat:no-repeat; background-position:right center; background-size:60% auto; }
+		.find li .con .arrows{ position:absolute; right:-12px; padding:0 8px; -webkit-transform: rotate(-90deg); width:28px; top:60%;  }
+		.find li .con .arrows:after,
+		.find li .con .arrows:before{ background-color:#cfcfcf; height: 1px; }
+		.find li.user{ padding: 10px; }
+		.find li.user .con{ 	padding-top: 10px; }
+		.find li.user .pic{ border-radius: 50%; width: 58px; height: 58px; background-size: 100%; }
+		.find li.user h6{ line-height: inherit; padding: 4px 0; }
+		.find li.user p{ color: #b9b9b9; font-size: .8rem; }
+		
+		body.black .top,
+		body.black .find{ background-color: #303030; }
+		body.black .title{ background-color: #363636; }
+		body.black .find li .con h6,
+		body.black .find li .con h6 span{ color: #707070;  }
+		body.black .find li .con .arrows:after,
+		body.black .find li .con .arrows:before{ background-color: #707070; }
+		body.black .find li .con p{ color: #626262; }
+		body.black li.hover{ background-color:#333; }
+	</style>
+</head>
+<body>
+	<div align="center" >
+		<header>
+			FY2016年江西省公共资源交易大数据图谱
+		</header>
+		<div class="information border-b">
+		<!-- 
+			<span>今天</span>
+			2015.07.26 星期天
+			<div class="ic-pulltorefresh"></div>
+		 -->
+	</div>
+    <div id="main" style="width: 600px;height:400px;">
+    
+    </div>
+	</div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/SHA1.js"></script>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/echarts.min.js"></script>
+<script type="text/javascript" src="../../script/jquery-3.1.0.js"></script>
+<script type="text/javascript">
+	
+	apiready = function(){
+		$api.skin();
+		$api.append( $api.dom('.information'), '<span>今天</span>'+setDate( Date() ) );
+		drewEcharts2();
+	};
+
+ function drewEcharts2() {
+		// 基于准备好的dom，初始化echarts图表
+var myChart = echarts.init(document.getElementById('main'));
+
+$.get('http://120.26.207.162/jxsggzy/echart_fy2015_classify_json.php').done(function (data) {
+   			data = eval("("+data+")");
+    myChart.setOption({
+        title: {
+            text: '本周数据情况'
+        },
+        tooltip: {},
+        legend: {
+            data:['招标额']
+        },
+        xAxis: {
+            data:data.name
+        },
+        yAxis: {},
+        series: [{
+            name: '',
+            type: 'bar',
+            data: data.num
+        }]
+    });
+});
+
+	}
+
+
+  function drewEcharts1() {
+		// 基于准备好的dom，初始化echarts图表
+		var myChart = echarts.init(document.getElementById('main'));
+	myChart.setOption({
+    title: {
+        text: '本周数据情况'
+    },
+    tooltip: {},
+    legend: {
+        data:['招标额']
+    },
+    xAxis: {
+        data: (function(){
+                                    var arr=[];
+                                        $.ajax({
+                                        type : "post",
+                                        async : false, //同步执行
+                                        url : "http://120.26.207.162/jxsggzy/echart_fy2015_classify.php",
+                                        data : {},
+                                        dataType : "json", //返回数据形式为json
+                                        success : function(result) {
+                                        if (result) {
+                                               for(var i=0;i<result.length;i++){
+                                                  console.log(result[i].name);
+                                                  arr.push(result[i].name);
+                                                }    
+                                        }
+                                        
+                                    },
+                                    error : function(errorMsg) {
+                                        alert("图表请求数据失败!");
+                                        myChart.hideLoading();
+                                    }
+                                   })
+                                   return arr;
+                                })()
+    },
+    yAxis: {},
+    series: [{
+        name: '招标额',
+        type: 'bar',
+        data: (function(){
+                                        var arr=[];
+                                        $.ajax({
+                                        type : "post",
+                                        async : false, //同步执行
+                                        url : "http://120.26.207.162/jxsggzy/echart_fy2015_classify.php",
+                                        data : {},
+                                        dataType : "json", //返回数据形式为json
+                                        success : function(result) {
+                                        if (result) {
+                                               for(var i=0;i<result.length;i++){
+                                                  console.log(result[i].num);
+                                                  arr.push(result[i].num);
+                                                }  
+                                        }
+                                    },
+                                    error : function(errorMsg) {
+                                        alert("图表请求数据失败!");
+                                        myChart.hideLoading();
+                                    }
+                                   })
+                                  return arr;
+                            })()
+   	 }]
+	});
+
+	}
+	
+
+
+    function drewEcharts() {
+		// 基于准备好的dom，初始化echarts图表
+		var myChart = echarts.init(document.getElementById('main'));
+		var option = {		
+			tooltip : {
+				show : true
+			},
+			legend : {
+				data : [ '招标额(单位：万)' ]
+			},
+			xAxis : [ {
+				type : 'category',
+				data :(function(){
+                                    var arr=[];
+                                        $.ajax({
+                                        type : "post",
+                                        async : false, //同步执行
+                                        url : "http://120.26.207.162/jxsggzy/echart_fy2015_classify.php",
+                                        data : {},
+                                        dataType : "json", //返回数据形式为json
+                                        success : function(result) {
+                                        if (result) {
+                                               for(var i=0;i<result.length;i++){
+                                                  console.log(result[i].name);
+                                                  arr.push(result[i].name);
+                                                }    
+                                        }
+                                        
+                                    },
+                                    error : function(errorMsg) {
+                                        alert("图表请求数据失败!");
+                                        myChart.hideLoading();
+                                    }
+                                   })
+                                   return arr;
+                                })() 
+			
+			} ],
+			yAxis : [ {
+				type : 'value'
+			} ],
+			series : [ {
+				"name" : "招标额(单位：万)",
+				"type" : "bar",
+				"data" : (function(){
+                                        var arr=[];
+                                        $.ajax({
+                                        type : "post",
+                                        async : false, //同步执行
+                                        url : "http://120.26.207.162/jxsggzy/echart_fy2015_classify.php",
+                                        data : {},
+                                        dataType : "json", //返回数据形式为json
+                                        success : function(result) {
+                                        if (result) {
+                                               for(var i=0;i<result.length;i++){
+                                                  console.log(result[i].num);
+                                                  arr.push(result[i].num);
+                                                }  
+                                        }
+                                    },
+                                    error : function(errorMsg) {
+                                        alert("图表请求数据失败!");
+                                        myChart.hideLoading();
+                                    }
+                                   })
+                                  return arr;
+                            })()
+                            
+			} ]
+		};
+		
+
+		// 为echarts对象加载数据 
+		myChart.setOption(option);
+	}
+	
+	function funFocus( tag ){
+		if( tag.checked ){
+			api.sendEvent({
+				name: 'skin',
+				extra: { skin: 'black' }
+			});
+			api.setPrefs({
+				key: 'skin',
+				value: 'black'
+			});
+		}else{
+			api.sendEvent({
+				name: 'skin',
+				extra: { skin: false }
+			});
+			api.removePrefs({
+				key: 'skin'
+			});
+		}
+	}
+	
+	function funWinIni(){
+		if( $api.getStorage( 'user' ) ){
+			funEachData( $api.getStorage( 'user' ) );	//无网调用本地缓存
+		};
+	}
+	
+	
+	function funQueryUser( id ){
+		$api.ajax('/user/'+id, 'get', null, function (ret, err) {
+			if (ret) {
+				$api.setStorage('user', JSON.stringify ( ret ) );
+				funEachData( ret );
+			} else {
+				$api.toast( err.msg );
+			}
+		});
+	};
+	
+	
+
+	function funEachData( ret ){
+		if( typeof ret === 'string' ){
+			ret = JSON.parse( ret );
+		};
+		if( $api.getStorage( 'isLogin' )  ){
+			if( ret.rela_chan ){
+				var rela_chan = ret.rela_chan.split(',');
+				var rela_chans = [];
+				for( var x in rela_chan ){
+					rela_chans.push( rela_chan[x] );
+				}
+				var rela_chan = { where : { id: { inq : rela_chans } }	};
+				api.execScript({
+					name: 'root',
+					script: 'funChannerInt( \''+JSON.stringify( rela_chan )+'\' )'
+				});
+			}
+			$api.rmStorage('isLogin');
+		}
+		$api.dom('.user-wrap').innerHTML = '';
+		var img = ret.img || '../../image/default.png';
+		var ht = '<header class="title"></header>'+
+		'<li tapmode="hover" onclick="funOpenHeader( this )" data-name="personl-frm" class="flex-wrap user">'+
+		'	<div class="datas none">'+JSON.stringify( ret )+'</div>'+
+		'	<div class="pic" style="background-image:url('+ img  +');" ></div>'+
+		'	<div class="con flex-con">'+
+		'		<div class="arrows"></div>'+
+		'		<h6 class="row-nowrap" >'+ret.username+'</h6>'+
+		'		<p class="row-nowrap" >刚刚开始你的旅途</p>'+
+		'	</div>'+
+		'</li>'
+		$api.append( $api.dom('.user-wrap'), ht );
+		$api.addCls( $api.dom( '.login-wrap' ), 'none' );
+		$api.removeCls( $api.dom( '.user-wrap' ), 'none' );
+		api.parseTapmode();	
+	};
+	
+	
+	function funOpenHeader( tag ){
+		var name = tag.getAttribute('data-name');
+		api.openWin({
+			name:  name,
+			url: '../public/header.html',
+			pageParam:{
+				file : 'login-reg'
+			},
+		});
+	};
+	
+	function funOpenHeader2( tag ){
+		var name = tag.getAttribute('data-name');
+		api.openWin({
+			name:  name,
+			url: '../public/header.html',
+			pageParam:{
+				file : '../index-list/article-list',
+			},
+		});
+	};
+	
+	function funOutLogin(){
+		$api.removeCls( $api.dom( '.login-wrap' ), 'none' );
+		$api.addCls( $api.dom( '.user-wrap' ), 'none' );
+		$api.rmStorage('user');
+		$api.rmStorage('accessToken');
+	};
+	
+	
+    function funauth(){
+        var weibo = api.require('weibo');
+		weibo.auth(function(ret,err){
+			if( ret.status ){
+				var bodyParam = {
+					username: ret.userId,
+					password: ret.userId
+				}
+				$api.ajax(	'/user?filter={"where":{"username":"'+ret.userId+'"}}', 'GET', null, function (ret, err) {
+					if( ret ){
+						if( ret.length ){
+							$api.ajax('/user/login', 'post', bodyParam, function (ret, err) {
+								if (ret) {
+									$api.setStorage( 'accessToken' , ret.id );	
+									$api.setStorage( 'isLogin' , true);		// 是否初始化首页频道
+									$api.setStorage( 'isGro-article' , true);		// 当前在 ”我的“ 界面时初始化首页隐藏首页 Group
+									funQueryUser( ret.userId );
+								} else {
+									$api.toast( err.msg );
+								}
+							});
+						}else{
+							$api.ajax(	'/user/', 'post', bodyParam, function (ret, err) {
+								if ( ret ) {
+									$api.ajax('/user/login', 'post', bodyParam, function (ret, err) {
+										if (ret) {
+											$api.setStorage( 'accessToken' , ret.id );	
+											$api.setStorage( 'isLogin' , true);		// 是否初始化首页频道
+											$api.setStorage( 'isGro-article' , true);		// 当前在 ”我的“ 界面时初始化首页隐藏首页 Group 
+											funQueryUser( ret.userId );
+										} else {
+											$api.toast( err.msg );
+										}
+									});
+								} else {
+									$api.toast( err.msg );
+								}
+							})
+						}
+					}else{
+						$api.toast( err.msg );
+					}
+				})
+				/*
+				*/
+			}else{
+				alert( JSON.stringify( err ))
+			}
+		});
+    }
+	
+	function setDate( d ) {  
+		var date = new Date( d );
+		function pad(n){  
+			return n<10 ? '0'+n : n  
+		}  
+		return  pad(date.getMonth()+1)+'/'  
+		+ pad(date.getDate())+' '  
+		+ pad(date.getHours())+':'  
+		+ pad(date.getMinutes());
+	}  	
+        
+</script>

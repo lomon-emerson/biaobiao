@@ -1,0 +1,321 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>标标</title>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <style>
+		body{  background-color:#ebebeb;height: auto; }
+		div.flex-wrap{  -webkit-box-orient: vertical; -webkit-flex-flow: column; flex-flow: column;  height:100%; }
+		div.flex-con{ overflow:auto; }
+		.login{ background-color: #32495d; padding: 15px 0;  }
+		.login nav{ overflow: hidden; }
+		.login nav p{ width: 25%; margin: 0 auto; text-align: center; }
+		.login nav p img{ width: 60%; }
+		.login .btn{ text-align: center;	padding: 10px 0;  }
+		.login .btn span{ border: 1px solid #4e5b66; border-radius: 4px; color: #7e8790; padding: 4px 6px; }
+		
+		.top{ background-color: #4674c8;  line-height:35px;  text-align:center; color:white; font-size:1.2rem; position:relative; }
+		.top span{ width:42px; height:42px; display:block; position:absolute; bottom:0; right:0; font-size:.8rem;  }
+		
+		.title{  background-color:#ebebeb; min-height:20px; }
+		
+		.find { background-color: white; }
+		.find li{ padding:0 10px; }
+		.find li.border-b:after{ left:10px; right:10px; }
+		.find li.hover{ background-color:#f5f5f5; }
+		.find li .con{ padding-left:8px; position:relative; overflow:hidden;  }
+		.find li .con h6{ color:#525252; line-height: 42px; font-size: 1.1rem;  }
+		.find li .con h6 span{ color: #b9b9b9; font-size: .8rem; padding-left: 10px; }
+		.find li .con .switch{ position:absolute; right: 0; top: 50%; margin-top: -12px; z-index: 2; }
+		.find li .pic{ width:35px; background-repeat:no-repeat; background-position:right center; background-size:60% auto; }
+		.find li .con .arrows{ position:absolute; right:-12px; padding:0 8px; -webkit-transform: rotate(-90deg); width:28px; top:60%;  }
+		.find li .con .arrows:after,
+		.find li .con .arrows:before{ background-color:#cfcfcf; height: 1px; }
+		.find li.user{ padding: 10px; }
+		.find li.user .con{ 	padding-top: 10px; }
+		.find li.user .pic{ border-radius: 50%; width: 58px; height: 58px; background-size: 100%; }
+		.find li.user h6{ line-height: inherit; padding: 4px 0; }
+		.find li.user p{ color: #b9b9b9; font-size: .8rem; }
+		
+		body.black .top,
+		body.black .find{ background-color: #303030; }
+		body.black .title{ background-color: #363636; }
+		body.black .find li .con h6,
+		body.black .find li .con h6 span{ color: #707070;  }
+		body.black .find li .con .arrows:after,
+		body.black .find li .con .arrows:before{ background-color: #707070; }
+		body.black .find li .con p{ color: #626262; }
+		body.black li.hover{ background-color:#333; }
+    </style>
+</head>
+<body>
+<div class="flex-wrap" >
+    <div class="flex-con">
+		<header class="login login-wrap">
+			<nav>
+				<p tapmode="hover" onclick="phoneLogin(true);" data-name="login-frm" ><img src="../../image/account_icon_mobile.png" alt=""></p>
+			</nav>
+		</header>
+		<div class="logined none">
+			<header class="title"></header>
+			<ul class="find">
+				<li tapmode="hover"  onClick="openModifyUser();" class="flex-wrap">
+					<div class="pic ic-me"></div>
+					<div class="con flex-con">
+						<div class="arrows"></div>
+						<h6>修改个人信息</h6>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<header class="title"></header>
+		<ul class="find">
+			<li tapmode="hover"  onClick="openFavoriteList();" class="flex-wrap">
+				<div class="pic ic-collect" ></div>
+				<div class="con flex-con">
+					<div class="arrows"></div>
+					<h6 class="border-b">收藏</h6>
+				</div>
+			</li>
+			<li  tapmode="hover" onClick=" openhelp();" class="flex-wrap">
+				<div class="pic ic-inform" ></div>
+				<div class="con flex-con">
+					<div class="arrows"></div>
+					<h6>帮助中心</h6>
+				</div>
+			</li>
+		</ul>
+		<header class="title"></header>
+		<ul class="find">
+            <li  tapmode="hover" onClick="addFeedback();" class="flex-wrap">
+                <div class="pic ic-feedback" ></div>
+                <div class="con flex-con">
+                    <div class="arrows"></div>
+                    <h6 class="border-b">反馈</h6>
+                </div>
+            </li>
+            <li  tapmode="hover" onclicK="funOpenHeader_agre();" class="flex-wrap">
+					<div class="pic ic-download" ></div>
+					<div class="con flex-con">
+						<div class="arrows"></div>
+						<h6 class="border-b" >服务协议</h6>
+					</div>
+				</li>
+        </ul>
+		<header class="title"></header>
+		<ul class="find">
+			<li  tapmode="hover" onclicK="openprivacy();" class="flex-wrap">
+					<div class="pic ic-topic" ></div>
+					<div class="con flex-con">
+						<div class="arrows"></div>					
+						<h6 class="border-b" >隐私政策</h6>
+					</div>
+				</li>
+			<li  tapmode="hover" onclicK="openabout();" class="flex-wrap">
+					<div class="pic ic-server" ></div>
+					<div class="con flex-con">
+						<div class="arrows"></div>
+						<h6>关于我们</h6>
+					</div>
+				</li>
+		</ul>
+    </div>
+	<div class="logined none">
+		<header class="title"></header>
+		<ul class="find">
+			<li  tapmode="hover" onClick="logout();" class="flex-wrap">
+				<div class="pic ic-download" ></div>
+				<div class="con flex-con">
+					<div class="arrows"></div>
+					<h6>退出登录</h6>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="../../script/utils.js"></script>
+<script type="text/javascript">
+
+	function logout() {
+		utils.rmStorage('userInfo');
+		$('.login').removeClass('none');
+		$('.logined').addClass('none');
+	}
+
+	function logined() {
+		$('.login').addClass('none');
+		$('.logined').removeClass('none');
+	}
+
+	function phoneLogin(isNoTip) {
+		utils.showLogin(isNoTip);
+	}
+
+    function checkLogin() {
+        var userInfo = utils.getUserInfo();
+        if (!userInfo) {
+			phoneLogin();
+			return false;
+        }
+		logined();
+        return userInfo;
+    }
+
+    apiready = function () {
+		$api.skin();
+		$api.fixIos7Bar( $api.dom( '.top' ) );
+
+		// 登录之后的操作
+		api.addEventListener({
+			name: 'userLogined'
+		}, logined);
+
+        if (!checkLogin()) {
+            return;
+        }
+    };
+
+    function openModifyUser() {
+		if (!checkLogin()) {
+			return;
+		}
+		api.openWin({
+			name:  'modify-frm',
+			url: '../public/header.html',
+			pageParam:{
+				isShowFontSize: false,
+				file : 'login-reg'
+			},
+			animation : {
+				type:"movein",
+				subType:"from_right",
+				duration: 400
+			}
+		});
+	}
+
+    function openFavoriteList() {
+        if (!checkLogin()) {
+            return;
+        }
+        api.openWin({
+            name:  'favorite-list',
+            url: '../public/header.html',
+            pageParam:{
+                isShowFontSize: false,
+                file : 'favorite-list',
+                tbname:'zfcg0'
+            },
+            animation : {
+                type:"movein",
+                subType:"from_right",
+                duration: 400
+            }
+        });
+    }
+
+    function openprivacy() {
+        if (!checkLogin()) {
+            return;
+        }
+        api.openWin({
+            name:  'consumer_privacy',
+            url: '../public/header.html',
+            pageParam:{
+                isShowFontSize: false,
+                file : 'consumer_privacy',
+                tbname:'zfcg0'
+            },
+            animation : {
+                type:"movein",
+                subType:"from_right",
+                duration: 400
+            }
+        });
+    }    
+
+    function openhelp() {
+        if (!checkLogin()) {
+            return;
+        }
+        api.openWin({
+            name:  'help',
+            url: '../public/header.html',
+            pageParam:{
+                isShowFontSize: false,
+                file : 'help',
+                tbname:'zfcg0'
+            },
+            animation : {
+                type:"movein",
+                subType:"from_right",
+                duration: 400
+            }
+        });
+    }    
+
+    function openabout() {
+        if (!checkLogin()) {
+            return;
+        }
+        api.openWin({
+            name:  'about_body',
+            url: '../public/header.html',
+            pageParam:{
+                isShowFontSize: false,
+                file : 'about_body',
+                tbname:'zfcg0'
+            },
+            animation : {
+                type:"movein",
+                subType:"from_right",
+                duration: 400
+            }
+        });
+    }    
+    
+    		function funOpenHeader_agre( ){
+		//id =encodeURIComponent(id); 
+		//alert("bid-list:id:"+id);
+		api.openWin({
+			name:  'agre',
+			url: '../public/header.html',
+			pageParam:{
+				file : 'agreement',
+				isShowFontSize: false
+			},
+		});
+	};
+    function addFeedback() {
+        if (!checkLogin()) {
+            return;
+        }
+        api.prompt({
+            title: '反馈',
+            buttons: ['确定', '取消']
+        }, function (ret) {
+            if (ret.buttonIndex !== 1) {
+                return false;
+            }
+            var content = ret.text;
+            api.showProgress();
+            utils.fetch(
+                    'http://120.26.207.162/bidservice/feedbackADD.php',
+                    {
+                        content: content
+                    },
+                    function (res) {
+                        api.hideProgress();
+                        res ? api.toast({msg: '反馈成功'}) : utils.showNetErrorTip();
+                    }
+            );
+        });
+    }
+
+</script>

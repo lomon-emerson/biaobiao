@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html style="font-size: 12px;">
+<head>
+    <title>标标服务协议</title>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <link href="../../css/style.css" rel="stylesheet" type="text/css" />
+    <style>
+        body{ background-color: #fafafa; }
+        .win-article{  transition:all 0s;  opacity: 1; }
+        .win-article .con{ padding:10px;}
+        .win-article .con .article-title{ color:#555; padding-bottom:5px; font-size: 1.4rem; line-height: 2rem;}
+        .win-article .con .article-about { color:#b9b9b9; padding:6px 0; font-size: 1rem; line-height: 1.4rem;}
+        .win-article .con .article-content{ color:#464646;  padding-bottom: 20px; font-size: 1.2rem; line-height: 1.6rem;}
+        .win-article .con .article-content p{ padding:10px 0; line-height:22px; }
+        .win-article .con .article-content p a{ color: #3c6598; padding:0 8px; }
+        .win-article .con .article-content img{ max-width:100%; display:block; margin:10px auto; }
+        .win-article .con .article-content iframe,
+        .win-article .con .article-content video{ width:100%; display:block; margin:10px auto; }
+    </style>
+</head>
+<body>
+<div class="win-article">
+    <div class="con">
+<h2 style="text-align:center"><strong>帮助中心</strong></h2>
+<br />
+<div class="panel-body">
+<p> <strong><span style="line-height:1.5;">1. 标标的数据来源有哪些？</span></strong> </p>
+ <p> <span style="line-height:1.5;">&nbsp; &nbsp;</span><span style="line-height:1.5;">标标的交易数据来源于全国公共资源交易平台、中央政府采购网、各级招投标等多家官方网站，并将各类数据统一处理、分类。</span> </p>
+  <p> <strong><span style="line-height:1.5;">2. 标标提供的交易信息是最新的吗？</span></strong> </p>
+   <p> <span style="line-height:1.5;">&nbsp; </span><span style="line-height:1.5;">标标提供实时的交易信息数据查询，您也可以通过页面下拉更新功能将交易信息更新至最新。</span> </p> 
+   <p> <strong><span style="line-height:1.5;">3. 注册登录后， 我可以享用哪些功能？</span></strong> </p> 
+   <p> <span style="line-height:1.5;">&nbsp; &nbsp; </span><span style="line-height:1.5;">注册登录后，您可以使用更多更强大的功能：</span> </p>
+    <p> <span style="line-height:1.5;">&nbsp; &nbsp; &nbsp;</span><span style="line-height:1.5;">1) 可以查看更多交易数据条数；</span> </p> 
+    <p> <span style="line-height:1.5;">&nbsp; &nbsp; &nbsp;</span><span style="line-height:1.5;">2)可按进行收藏、留言等功能；</span> </p> 
+     <p> <strong><span style="line-height:1.5;">4. 我只知道交易的部分信息，如采购单位，代理机构，中标公司，专家，产品名称等，能找出相应的企业？</span></strong> </p> 
+     <p> <span style="line-height:1.5;">&nbsp; &nbsp;&nbsp;</span><span style="line-height:1.5;">您只要输入采购单位，品牌，或者产品名称，或者中标公司等名称，标标都可为您找出相应的信息。</span> </p>
+      <p> <strong><span style="line-height:1.5;">5.会员有哪些功能，会员后如何使用？</span></strong> </p>
+       <p> <span style="line-height:1.5;">&nbsp; &nbsp;</span><span style="line-height:1.5;">您可以在标标的官网（www.allsoftcould.com）上使用PC端高级渐近式搜索功能，并进行相应数据的导出。</span> </p> 
+         <p> <strong><span style="line-height:1.5;">6. 有哪些渠道我可以直接访问标标？</span></strong> </p>
+          <p> <span style="line-height:1.5;">&nbsp; &nbsp;</span><span style="line-height:1.5;">1) 您可以使用PC登陆标标Web端 （www.allsoftcould.com）</span> </p> 
+          <p> <span style="line-height:1.5;">&nbsp; </span><span style="line-height:1.5;">2) 您可以直接扫描APP二维码下载标标</span> </p>
+           <p> <strong><span style="line-height:1.5;">7. 我发现了一个产品BUG，或者找不到想要的查询结果，或者有一个好的建议，应该向谁反馈？</span></strong> </p> 
+           <p> <span style="line-height:1.5;">&nbsp; &nbsp;&nbsp;</span><span style="line-height:1.5;">您可以直接邮件联系标标产品团队（itc@allsoftcould.com）, 或者通过页面上的意见反馈对我们进行反馈，</span> </p> 
+           <p> <span style="line-height:1.5;">&nbsp; &nbsp; 我们期待您的反馈和建议。</span> </p> 
+           <p> <strong><span style="line-height:1.5;">8.我想和标标进行商务合作，应该向谁联系？</span></strong> </p>
+            <p> <span style="line-height:1.5;">&nbsp; &nbsp; &nbsp;&nbsp;</span>
+            <span style="line-height:1.5;">您可以通过以下途径直接联系标标产品团队：</span> </p>
+             <p> <span style="line-height:1.5;">&nbsp; &nbsp; &nbsp;&nbsp;</span>
+             <span style="line-height:1.5;">邮件：itc@allsoftcould.com</span> </p> <p> <br> </p>
+             </div>
+
+
+</div>
+
+</div>
+
+<div style="background: #4674c8;text-align: center">
+    <div style="font-size: 9pt;color: #fff">Copyright©2016 AllSoft Co., Ltd. All Rights Reserved.</div>
+    <div style="font-size: 9pt;color: #fff">
+ <span>
+赣ICP备15006205号-2
+</span>
+    </div>
+    <div style="font-size: 9pt;color: #fff">
+        全通软件服务有限公司 版权所有
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>标标</title>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+	<style>
+		div.flex-wrap{  -webkit-box-orient: vertical; -webkit-flex-flow: column; flex-flow: column;  height:100%; }
+		div.flex-con{ overflow:auto; }
+		.top{ line-height:62px; height:62px;  text-align:center;  background-color: #4674c8;color:white; font-size:1.2rem; position:relative;}
+		.top span{ width:42px; height:42px; display:block; position:absolute; color:#a0a0a0; font-size:.8rem; bottom:0; background-repeat:no-repeat; background-position:center; background-size:50% auto; }
+		.top span.ic-back{ left:0; }
+		.top span.ic-font-family,
+		.top span.ic-more,
+		.top span.ic-share{ right:0; }
+		.top span.btn{ right:0; background: none; }
+		
+		div.flex-wrap{  -webkit-box-orient: vertical; -webkit-flex-flow: column; flex-flow: column;  height:100%; }
+		div.flex-con{ overflow:auto; }
+	.header{height:50px;background-color:#FAFAFA;display:-webkit-box;-webkit-box-align:center;position:relative;}
+	.header-search{display:-webkit-box;-webkit-box-flex:1;background-color:#EBEBEB;height:30px;border:1px solid #EBEBEB;border-radius:10px;margin-left:10px;}
+	.header-search-input{display:-webkit-box;-webkit-box-flex:1;padding-left:50px;color:#000000;height:30px;outline-style:none;}
+
+	
+	
+	</style>
+</head>
+<body>
+	<div class="flex-wrap" >
+		<header class="top border-b" id="header-top">	<!-- 文章头部 -->
+			<h1 style="padding-top:11px;"></h1>
+			<span tapmode="hover" onclick="api.closeWin();" class="ic-back"></span>
+
+			<span tapmode="hover" id="font-size" onclicK="toggleArticleFontSize();" class="ic-font-family"></span>
+		</header>
+		<div class="flex-con"></div>
+	</div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript">
+	apiready = function(){
+	    var header = $api.byId('header-top');
+	    //$api.fixIos7Bar(header);
+	    var h1=$api.dom(header,'h1');
+	    
+ 		$api.html(h1,api.pageParam.titlebar);
+		api.pageParam.isShowFontSize === false && $('#font-size').addClass('none');
+		api.openFrame({
+			name: api.winName,
+			url: api.pageParam.file + '.html', //article
+			vScrollBarEnabled:true,
+			bounces : false,
+			rect: {
+				x: 0,
+				y: $api.dom('.top:not(.none)') ? $api.dom('.top:not(.none)').offsetHeight : 0,
+				w: api.winWidth,
+				h: $api.dom('.flex-con').offsetHeight
+			},
+			pageParam:{
+				tbname:api.pageParam.tbname,
+				column:api.pageParam.column,
+				title : api.pageParam.title,
+				id : api.pageParam.id
+			}
+		});
+
+	};
+
+	function toggleArticleFontSize () {
+		api.sendEvent({
+			name: 'toggleFontSize'
+		});
+	}
+
+</script>

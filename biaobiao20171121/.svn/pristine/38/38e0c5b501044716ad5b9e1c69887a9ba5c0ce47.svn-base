@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html style="font-size: 12px;">
+<head>
+    <title>标标</title>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <link href="../../css/style.css" rel="stylesheet" type="text/css" />
+    <style>
+        body{ background-color: #fafafa; }
+        .win-article{  transition:all 0s;  opacity: 1; }
+        .win-article .con{ padding:10px;}
+        .win-article .con .article-title{ color:#555; padding-bottom:5px; font-size: 1.4rem; line-height: 2rem;}
+        .win-article .con .article-about { color:#b9b9b9; padding:6px 0; font-size: 1rem; line-height: 1.4rem;}
+        .win-article .con .article-content{ color:#464646;  padding-bottom: 20px; font-size: 1.2rem; line-height: 1.6rem;}
+        .win-article .con .article-content p{ padding:10px 0; line-height:22px; }
+        .win-article .con .article-content p a{ color: #3c6598; padding:0 8px; }
+        .win-article .con .article-content img{ max-width:100%; display:block; margin:10px auto; }
+        .win-article .con .article-content iframe,
+        .win-article .con .article-content video{ width:100%; display:block; margin:10px auto; }
+    </style>
+</head>
+<body>
+<div class="win-article">
+    <div class="con"></div>
+    <div id="article-operations" class="article-operations none">
+        <!-- 页面收藏 -->
+        <div id="favorite"></div>
+        <!-- 页面评论 -->
+        <div id="comment" class="comment">
+            <h2 id="comment-title">大家怎么说...</h2>
+            <!-- 用户自己新增的评论-->
+            <div class="comment-list" id="my-comment-list"></div>
+            <!-- 大家的评论 -->
+            <div class="comment-list" id="comment-list"></div>
+            <div id="add-comment"></div>
+        </div>
+    </div>
+</div>
+<!-- 模板区域^ -->
+<style>
+    .template {
+        display: none;
+    }
+    .article-operations {
+        padding-bottom: 40px;
+    }
+    .favorite {
+        margin: 20px 10px;
+    }
+    .favorite .add-btn {
+        display: inline-block;
+        border-radius: 5px;
+        padding: 8px 15px;
+        background-color: #f96d6d;
+        color: #fff;
+    }
+    .favorite .add-btn.added {
+        background-color: #3b99da;
+        color: #fff;
+    }
+    .favorite .favorite-tip {
+        display: inline-block;
+        margin-left: 10px;
+        font-size: 12px;
+        color: #bbb;
+    }
+    .comment h2 {
+        color: #333;
+        font-size: 18px;
+        margin: 20px 10px;
+    }
+    .comment .comment-list .comment-item {
+        margin: 15px 10px 15px 25px;
+    }
+    .comment .comment-list .comment-item .username{
+        color: #2a90d7;
+    }
+    .comment .comment-list .comment-item .content{
+        margin: 10px 0 5px 0;
+    }
+    .comment .comment-list .comment-item .post-time{
+        font-size: 12px;
+        color: #aaa;
+    }
+    .comment .add-comment {
+        width: 100%;
+        height: 33px;
+        position: fixed;
+        bottom: 0;
+        border-top: 1px solid #ddd;
+        background-color: #f0f0f0;
+        padding: 5px 15px;
+        overflow: hidden;
+    }
+    .comment .add-comment .add-tip {
+        margin-right: 180px;
+        border-radius: 16px;
+        line-height: 20px;
+        padding: 5px;
+        font-size: 14px;
+        color: #f0f0f0;
+        background-color: #fff;
+    }
+    .comment .add-comment .btm-btns {
+        width: 180px;
+        float: right;
+    }
+    .comment .add-comment .add-btm-btn {
+        width: 50px;
+        position: relative;
+        display: inline-block;
+    }
+    .comment .add-comment .add-btm-btn img{
+        display: block;
+        width: 30px;
+        height: 30px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+    }
+    .comment .add-comment .add-btm-btn.comments-count .count{
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        left: 25px;
+        background-color: #f05b5b;
+        color: #fff;
+        font-size: 10px;
+        border-radius: 8px;
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        text-align: center;
+    }
+</style>
+<!-- 收藏页面 -->
+<section class="template" id="tpl-favorite">
+    <div class="favorite">
+        {{#isAdded}}
+        <div class="add-btn added" onClick="ArticleOperations.delFavorite()">取消收藏</div>
+        {{/isAdded}}
+        {{^isAdded}}
+        <div class="add-btn" onClick="ArticleOperations.addFavorite()">收藏页面</div>
+        {{/isAdded}}
+        <div class="favorite-tip">
+            {{#isAdded}}点击按钮取消收藏本页面{{/isAdded}}
+            {{^isAdded}}收藏后在“我的”-“页面收藏”中可查看{{/isAdded}}
+        </div>
+    </div>
+</section>
+<!-- 单条评论 -->
+<section class="template" id="tpl-comment">
+    {{#list}}
+    <div class="comment-item">
+        <div class="username">{{userName}}</div>
+        <div class="content">{{comments}}</div>
+        <div class="post-time">{{createdAt}}</div>
+    </div>
+    {{/list}}
+</section>
+<section class="template" id="tpl-add-comment">
+    <div class="add-comment">
+        <div class="btm-btns">
+            <div class="add-btm-btn comments-count">
+                {{#commentsCount}}<div class="count">{{commentsCount}}</div>{{/commentsCount}}
+                <img src="../../image/ic_action_comment_pressed_night.png" />
+            </div>
+            {{#isAddedFavorite}}
+            <div  class="add-btm-btn add-favorite" onClick="ArticleOperations.delFavorite()">
+                <img src="../../image/ic_action_favor_on_normal.png" />
+            </div>
+            {{/isAddedFavorite}}
+            {{^isAddedFavorite}}
+            <div  class="add-btm-btn add-favorite" onClick="ArticleOperations.addFavorite()">
+                <img src="../../image/ic_action_favor_normal_night.png" />
+            </div>
+            {{/isAddedFavorite}}
+            <div class="add-btm-btn add-share" onClick="ArticleOperations.share()">
+                <img src="../../image/shareicon_titlebar_dynamic_normal.png" />
+            </div>
+        </div>
+        <div
+                class="add-tip"
+                id="add-comment-tip"
+                onClick="ArticleOperations.addComment()"
+        >{{addCommentTip}}</div>
+    </div>
+</section>
+<!-- 模板区域$ -->
+</body>
+</html>
+<script type="text/javascript" src="../../script/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="../../script/mustache.min.js"></script>
+<script type="text/javascript" src="../../script/utils.js"></script>
+<script>
+
+
+    /**
+     * 文章相关操作：收藏、评论
+     */
+    var ArticleOperations = (function () {
+        // 初始化模板引擎
+        var templates = {
+            favorite: $('#tpl-favorite').html(),
+            comment: $('#tpl-comment').html(),
+            addComment: $('#tpl-add-comment').html()
+        };
+        _.forEach(templates, function (tpl) {
+            Mustache.parse(tpl);
+        });
+
+        var ADD_COMMENT_TIP = '写评论...';
+        var pageId = '';
+        var pageTitle = '';
+        var tbname = '';
+        var autoID = ''
+        var commentsCount = 0;
+        var isAddedFavorite = false;
+        var $addComment = $('#add-comment');
+
+        function renderAddComment() {
+            var html = Mustache.render(templates.addComment, {
+                isAddedFavorite: isAddedFavorite, commentsCount: commentsCount, addCommentTip: ADD_COMMENT_TIP
+            });
+            $addComment.html(html);
+        }
+
+        // 收藏文章
+        var Favorite = (function () {
+            var $favorite = $('#favorite');
+
+            function render() {
+                var html = Mustache.render(templates.favorite, {isAdded: isAddedFavorite});
+                $favorite.html(html);
+                renderAddComment();
+            }
+
+            function init() {
+                !utils.getUserInfo() ? render() : utils.fetch(
+                        'http://120.26.207.162/bidservice/favoritesGET.php',
+                        {
+                            pageId: pageId,
+                            tbname: tbname
+                        },
+                        function (res) {
+                            isAddedFavorite = !!res;
+                            render();
+                        }
+                );
+            }
+
+            function add() {
+                utils.fetch(
+                        'http://120.26.207.162/bidservice/favoritesADD.php',
+                        {
+                            pageId: pageId,
+                            tbname: tbname
+                        },
+                        function (res) {
+                            isAddedFavorite = !!res;
+                            !isAddedFavorite && utils.showNetErrorTip();
+                            render();
+                        }
+                );
+            }
+
+            function del() {
+                utils.fetch(
+                        'http://120.26.207.162/bidservice/favoritesDEL.php',
+                        {
+                            pageId: pageId,
+                            tbname: tbname
+                        },
+                        function (res) {
+                            isAddedFavorite = false;
+                            render();
+                        }
+                );
+            }
+
+            return {
+                init: init,
+                add: add,
+                del: del
+            };
+
+        })();
+
+        // 评论文章
+        var Comment = (function () {
+            var PAGE_LENGTH = 60;
+            var POST_TIME_FORMAT = 'YYYY-MM-DD HH:mm';
+
+            var $commentList = $('#comment-list');
+            var $myCommentList = $('#my-comment-list');
+            var $commentTitle = $('#comment-title');
+            var pageNo = 1;
+            var hashMore = true;
+
+            function formatList(list) {
+                // 如果没有评论内容，则不显示
+                pageNo === 2 && !list.length && $commentTitle.addClass('none');
+                list.length && $commentTitle.removeClass('none');
+                return _.map(list, function (item) {
+                    return _.extend({}, item, {
+                        createdAt: moment(item.createdAt).format(POST_TIME_FORMAT)
+                    });
+                });
+            }
+
+            function renderAppendList(list) {
+                var html = Mustache.render(templates.comment, {list: formatList(list)});
+                $commentList.append(html);
+                renderAddComment();
+            }
+
+            function renderAppendMyList(item) {
+                var html = Mustache.render(templates.comment, {list: formatList([item])});
+                $myCommentList.append(html);
+                $myCommentList[0] && $myCommentList[0].scrollIntoView && $myCommentList[0].scrollIntoView();
+                commentsCount++;
+                renderAddComment();
+            }
+
+            function load() {
+                if (!hashMore) {
+                    return false;
+                }
+                utils.fetch(
+                        'http://120.26.207.162/bidservice/commentsGET.php',
+                        {
+                            pageId: pageId,
+                            pageno: pageNo++,
+                            tbname: tbname,
+                            isNoNeedLogin: true
+                        },
+                        function (res) {
+                            var list = res || [];
+                            // 如果加载到这一页小于每页最大值，则认为“没有更多了”
+                            list.length < PAGE_LENGTH && (hashMore = false);
+                            renderAppendList(list);
+                        }
+                );
+            }
+
+            function count(cb) {
+                utils.fetch(
+                        'http://120.26.207.162/bidservice/commentsCOUNT.php',
+                        {
+                            pageId: pageId,
+                            tbname: tbname,
+                            isNoNeedLogin: true
+                        },
+                        function (res) {
+                            var list = res || [];
+                            commentsCount = (list && list[0].commentscount) || 0;
+                            cb && cb();
+                        }
+                );
+            }
+
+            function init() {
+                count(function () {
+                    load();
+                    api.addEventListener({
+                        name:'scrolltobottom'
+                    }, function(){
+                        load();
+                    });
+                });
+            }
+
+            function add() {
+                if (!utils.getUserInfo()) {
+                    return utils.showLogin();
+                }
+                api.prompt({
+                    title: ADD_COMMENT_TIP,
+                    buttons: ['确定', '取消']
+                }, function (ret) {
+                    if (ret.buttonIndex !== 1) {
+                        return false;
+                    }
+                    var content = ret.text;
+                    api.showProgress();
+                    utils.fetch(
+                            'http://120.26.207.162/bidservice/commentsADD.php',
+                            {
+                                pageId: pageId,
+                                comments: content,
+                                tbname: tbname
+                            },
+                            function (res) {
+                                api.hideProgress();
+                                res ? renderAppendMyList(_.extend({
+                                        comments: content,
+                                        createdAt: moment().format()
+                                    }, res[0] || res))
+                                    : utils.showNetErrorTip();
+                            }
+                    );
+                });
+            }
+
+            return {
+                init: init,
+                add: add
+            };
+
+        })();
+
+        // 分享文章
+        var Share = (function () {
+
+            function pyq(shareParams, success, fail) {
+                var wx = api.require('wx');
+                wx.shareWebpage({
+                    scene: 'timeline',
+                    title: shareParams.title,
+                    description: shareParams.desc,
+                    thumb: shareParams.thumb,
+                    contentUrl: shareParams.url
+                }, function (ret, err) {
+                    if (ret.status) {
+                        success();
+                    } else if (err.code !== 2){
+                        fail();
+                    }
+                });
+            }
+
+            function wx(shareParams, success, fail) {
+                var wx = api.require('wx');
+                wx.shareWebpage({
+                    scene: 'session',
+                    title: shareParams.title,
+                    description: shareParams.desc,
+                    thumb: shareParams.thumb,
+                    contentUrl: shareParams.url
+                }, function (ret, err) {
+                    if (ret.status) {
+                        success();
+                    } else if (err.code !== 2){
+                        fail();
+                    }
+                });
+            }
+
+            function qzone(shareParams, success, fail) {
+                var qq = api.require('qq');
+                qq.shareNews({
+                    type: 'QZone',
+                    title: shareParams.title,
+                    description: shareParams.desc,
+                    url: shareParams.url,
+                    imgUrl: shareParams.thumb
+                }, function (ret, err) {
+                    if (ret.status) {
+                        success();
+                    } else if (err.code !== -4){
+                        fail(err);
+                    }
+                });
+            }
+
+            function qq(shareParams, success, fail) {
+                var qq = api.require('qq');
+                qq.shareNews({
+                    type: 'QFriend',
+                    title: shareParams.title,
+                    description: shareParams.desc,
+                    url: shareParams.url,
+                    imgUrl: shareParams.thumb
+                }, function (ret, err) {
+                    if (ret.status) {
+                        success();
+                    } else if (err.code !== -4){
+                        fail(err);
+                    }
+                });
+            }
+
+            function wb(shareParams, success, fail) {
+                var weibo = api.require('weibo');
+                weibo.shareWebPage({
+                    text: shareParams.title,
+                    title: shareParams.title,
+                    description: shareParams.desc,
+                    thumb: shareParams.thumb,
+                    contentUrl: shareParams.url
+                }, function (ret, err) {
+                    if (ret.status) {
+                        success();
+                    } else if (err.code !== 1){
+                        fail(err);
+                    }
+                });
+            }
+
+            var shareActions = {
+                pyq: pyq,
+                wx: wx,
+                qzone: qzone,
+                qq: qq,
+                wb: wb
+            };
+
+            var shareMap = {
+                pyq: '微信朋友圈',
+                wx: '微信好友',
+                qzone: 'QQ空间',
+                qq: 'QQ好友',
+                wb: '微博'
+            };
+
+            var shareParams = {};
+
+            function init() {
+                shareParams = {
+                    title: '标标-' + pageTitle,
+                    desc: '我在这儿看江西省招投标信息，你也来试试吧~',
+                    thumb: 'http://www.allsoftcould.com/img/icon200.png',
+                    url: 'http://www.allsoftcould.com/share/' + tbname + '/' + autoID
+                };
+            }
+
+            function entry() {
+                api.actionSheet({
+                    title: '我要分享到...',
+                    cancelTitle: '取消分享',
+                    buttons: _.values(shareMap)
+                }, function(ret, err) {
+                    var shareList = _.keys(shareMap);
+                    var index = ret.buttonIndex - 1;
+                    var shareAction = shareActions[shareList[index]];
+                    shareAction(shareParams, function () {
+                        api.toast({
+                            msg: '分享成功',
+                            duration: 2000,
+                            location: 'bottom'
+                        });
+                    }, function (err) {
+                        api.toast({
+                            msg: '分享失败',//  + JSON.stringify(err),
+                            duration: 2000,
+                            location: 'bottom'
+                        });
+                    });
+                });
+            }
+
+            return {
+                init: init,
+                entry: entry
+            };
+
+        })();
+
+        // 文章相关操作整体初始化
+        function init(_pageId, _pageTitle, _tbname, _autoID) {
+            pageId = _pageId;
+            pageTitle = _pageTitle;
+            tbname = _tbname;
+            autoID = _autoID;
+            $('#article-operations').removeClass('none');
+            $('#add-comment').css('width', (api.winWidth - 30) + 'px');
+            Favorite.init();
+            Comment.init();
+            Share.init();
+
+            // header调整文章字体
+            api.addEventListener({
+                name: 'toggleFontSize'
+            }, function () {
+                $html = $('html');
+                var fontSize = ['12px', '16px'];
+                $html.css('font-size', $html.css('font-size') === fontSize[0] ? fontSize[1] : fontSize[0]);
+            });
+        }
+
+        // exports
+        return {
+            init: init,
+            addFavorite: Favorite.add,
+            delFavorite: Favorite.del,
+            loadComment: Comment.load,
+            addComment: Comment.add,
+            share: Share.entry
+        };
+
+    })();
+
+    apiready = function(){
+        var tbname = api.pageParam.tbname;
+        var autoID = api.pageParam.id;
+        utils.fetch(
+                'http://120.26.207.162/jxsggzy/newstitle_newsdetails.php',
+                {
+                    tbname: tbname,
+                    url: api.pageParam.title,
+                    isNoNeedLogin: true
+                },
+                function(ret){
+                    if (ret) {
+                        var pageTitle = ret[0].newstitle;
+                        var hits = parseInt(ret[0].hitcount);
+                        var html = [
+                            '<div class="article-title">' + pageTitle + '</div>',
+                            '<div class="article-about">【信息发布时间：' + ret[0].newstime + '&nbsp;&nbsp;App阅读次数：' + (isNaN(hits) ? 0 : hits) + '】</div>',
+                            '<div class="article-content">' + ret[0].newsdetails.replace(/\n+/g,"<br>") + '</div>'
+                        ].join('');
+                        $('.win-article .con').prepend(html);
+                        // 初始化文章相关操作
+                        ArticleOperations.init(pageTitle, pageTitle, tbname, autoID);
+                    }
+                }
+        );
+    };
+
+</script>

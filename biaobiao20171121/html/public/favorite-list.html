@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>标标</title>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <style>
+        body{background-color:#fafafa;}
+    </style>
+</head>
+<body>
+<section id="container"></section>
+<!-- 模板区域^ -->
+<style>
+    .template {
+        display: none;
+    }
+    .list {
+        list-style: none;
+        padding: 10px;
+    }
+    .list > li {
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+        font-size: 14px;
+        line-height: 20px;
+    }
+    .list > li .foot{
+        margin-top: 3px;
+        text-align: right;
+        font-size: 12px;
+        color: #bbb;
+    }
+</style>
+<!-- 收藏列表 -->
+<section class="template" id="tpl-favorite_list">
+    <ul class="list" >
+        {{^list}}
+        <li>
+            您还没有收藏过页面哦~快去发现并收藏吧~
+        </li>
+        {{/list}}
+        {{#list}}
+        <li onClick="openArticle('{{newstitle}}','{{newstitleautoID}}','{{columnname}}','{{tbname}}');">
+            {{newstitle}}
+            <div class="foot">{{createdAt}}</div>
+        </li>
+        {{/list}}
+    </ul>
+</section>
+<!-- 模板区域$ -->
+</body>
+</html>
+<script type="text/javascript" src="../../script/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="../../script/mustache.min.js"></script>
+<script type="text/javascript" src="../../script/utils.js"></script>
+<script type="text/javascript">
+
+    function openArticle(id,newstitleautoID,columnname,tbname) {
+    //alert(columnname);
+    if(columnname==''){
+        api.openWin({
+            name:  'article',
+            url: '../public/header.html',
+            pageParam:{
+                file : 'article',
+                title: id,
+                titlebar:'',
+                tbname:tbname
+            },
+            animation : {
+                type:"movein",
+                subType:"from_right",
+                duration: 400
+            }
+        });
+       }
+       else
+       {
+        api.openWin({
+            name:  id,
+            url: '../public/header.html',
+            pageParam:{
+                file : 'info_article',
+                id : newstitleautoID,
+                title : id,
+                titlebar:'',
+                column:columnname,
+                tbname: tbname
+            },
+            animation : {            
+                type:"movein",                //动画类型（详见动画类型常量）
+                subType:"from_right",       //动画子类型（详见动画子类型常量）
+                duration: 400 
+            }
+        });
+       
+       } 
+        
+    }
+
+    var FavoriteList = (function () {
+        var $container = $('#container');
+        var template =  $('#tpl-favorite_list').html();
+
+        Mustache.parse(template);
+
+        function render(list) {
+            var html = Mustache.render(template, {list: list});
+            $container.html(html);
+        }
+
+        function init(tbname) {
+            utils.fetch(
+                    'http://120.26.207.162/bidservice/favoritesGET.php',
+                    {
+                        tbname: tbname
+                    },
+                    function (res) {
+                        render(res || []);
+                    }
+            );
+        }
+
+        return {
+            init: init
+        };
+
+    })();
+
+    apiready = function(){
+
+        var tbname = api.pageParam.tbname;
+        FavoriteList.init(tbname);
+
+    };
+</script>

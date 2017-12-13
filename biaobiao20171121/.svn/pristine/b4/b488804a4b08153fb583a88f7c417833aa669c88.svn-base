@@ -1,0 +1,446 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DEMO</title>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<link href="../../css/style.css" rel="stylesheet" type="text/css" />
+	<style>
+			body{ background-color: #fafafa; }
+			.win-article{  transition:all 0s;  opacity: 1; }
+			.win-article .title{ background-color:#eee; padding:4px 10px;  color:#3f6799; line-height:30px; }
+			.win-article .title:after{ content:''; display:block; }
+			.win-article .title .pic{ width:30px; height:30px; border-radius:4px; overflow:hidden; background:white url() no-repeat center; background-size:100% auto; float:left; margin-right:10px; }
+			.win-article .title .pic img{ width:100%; min-height:100%;  }
+			.win-article .con{ padding:10px;}
+			.win-article .con .article-title{ color:#555; font-size:1.4rem; padding-bottom:10px;  }
+			.win-article .con .article-title p{ color:#b9b9b9; font-size:.8rem; padding:6px 0; }
+			.win-article .con .article{ color:#464646;  padding-bottom: 20px; }
+			.win-article .con .article p{ padding:10px 0; line-height:22px; }
+			.win-article .con .article p a{ color: #3c6598; padding:0 8px; }
+			.win-article .con .article img{ max-width:100%; display:block; margin:10px auto; }
+			.win-article .con .article iframe,
+			.win-article .con .article video{ width:100%; display:block; margin:10px auto; }
+			.win-article .con .atte{ border:1px solid #eee; padding:10px; }
+			.win-article .con .atte .txt{  position:relative; padding:2px 6px; }
+			.win-article .con .atte .txt span{ background-color:#3b99da; color:white; border-radius:2px; position:absolute; right:0; top:8px; display:inline-block; padding:4px 8px; }
+			.win-article .con .atte .txt span:before{ content: '订阅'; }
+			.win-article .con .atte .txt span.active{ background-color: transparent; border: 1px solid #ddd; color: #ddd;  }
+			.win-article .con .atte .txt span.active:before{ content: '已订阅'; }
+			.win-article .con .atte .txt h6{ color:#484848; }
+			.win-article .con .atte .txt p{ width:80%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;  font-size:.8rem; color:#9e9e9e;  padding-top: 7px;  }
+			.win-article .con .atte .pic{ display:table; width:40px; height:40px; background:white url() no-repeat center; background-size:100% auto;  }
+			.win-article .banner{ background-color:#ebebeb; border:1px solid #ddd; border-width:1px 0; }
+			.win-article .banner img{ max-width:100%; display:block; margin:10px auto; }
+			.win-article .correlation{  background-color:#ebebeb;  }
+			.win-article .correlation .box{ background-color:white; margin-bottom:10px; }
+			.win-article .correlation .box h6{ line-height:32px; }
+			.win-article .correlation .box h6 span{ border-left:6px solid #fe3232; padding-left:10px; color:#444; }
+			.win-article .correlation .box .tags{ padding:5px 10px; font-size: .8rem; }
+			.win-article .correlation .box .tags span{ color:#5aa8df; border:1px solid #d8d8d8; display:inline-block;border-radius:50px;margin:4px;padding:4px 10px; }
+			.win-article .correlation .box ul{ padding:0 10px;   }
+			.win-article .correlation .box ul li{ color:#464646;  line-height: 38px; font-size: .8rem;  }
+			.win-article .correlation .box .href{ color:#d02d2d; text-align:center; padding:10px 0; }
+			.win-article .correlation .box .praise{   padding:10px; }
+			.win-article .correlation .box .praise p{ background-repeat:no-repeat; color: #969696; text-align:center;  background-position: 20% center; background-size: auto 70%; }
+			.win-article .correlation .box .praise p.active{ color: #fe3232; }
+			.win-article .correlation .box .praise p span{ display:block; border:1px solid #e9e9e9;  margin-right:5px; border-radius:4px; padding:6px 0; text-indent:2em; }
+			.win-article .correlation .box .praise p:last-child span{ margin:0; margin-left:5px; }
+			.win-article .correlation .box .topic-href{ color:#6484ad; border:1px solid #6484ad; border-radius:4px; margin:10px; padding:6px 10px; text-align:center; }
+			.win-article .correlation .box ol li{ margin:0 10px; padding:6px 0; overflow:hidden; position:relative; }
+			.win-article .correlation .box ol li .txt{color:#484848; position:relative; padding-left:15px; }
+			.win-article .correlation .box ol li .txt h6{  line-height:inherit; }
+			.win-article .correlation .box ol li .txt p{  font-size:.8rem; padding-top:6px; }
+			.win-article .correlation .box ol li .txt .share{ font-size:.8rem; color:#aaa; padding-top:10px; }
+			.win-article .correlation .box ol li .txt .share em{ font-style:normal; }
+			.win-article .correlation .box ol li .txt .share h5{ float:right; }
+			.win-article .correlation .box ol li .txt .share b{ color:#9b9b9b; font-weight:normal; position: relative; padding-left:28px;  display:inline-block;background-repeat:no-repeat;  background-position: 20% center; background-size: auto 100%;  }
+			.win-article .correlation .box ol li .txt .share b.pra:after{ content:'+1';  position:absolute; left:50%; top:100%; display:block; z-index:-1; font-size: 1.4rem;  }
+			.win-article .correlation .box ol li .txt .share b.pra.active:after{ -webkit-transition:all 1.6s;  transition:all 2s; top:-400%; z-index:1; opacity:0; }
+			.win-article .correlation .box ol li .pic{ display:table; width:36px; height:36px; background: url() no-repeat center; background-size: 100% auto; }
+			.win-article .correlation .box ol li .pic span{ display:table-cell; vertical-align:middle; }
+			.win-article .correlation .box ol li .pic span img{ width:100%; vertical-align:middle; }
+			.win-article .correlation .box ol li:last-child{ border:0; }
+			.win-article .correlation .box ol li.empty{ color: #ccc; text-align: center; padding: 60px 0;  }
+			.more{ width: 50px; height: 50px; background: url(../../image/spinner_76_inner_holo.png) no-repeat center; background-size: 100% 100%; position: fixed; left: 50%; top: 50%; margin-left: -25px; margin-top: -25px;  -webkit-animation:fa-spin 1s infinite steps(8); animation:fa-spin 1s infinite steps(8);  }
+			.none {display: none;}
+	</style>
+  </head>
+  <body>
+		<div class="win-article">
+			<div class="con"></div>
+			<div id="article-operations" class="article-operations none">
+				<!-- 页面收藏 -->
+				<div id="favorite"></div>
+				<!-- 页面评论 -->
+				<div id="comment" class="comment">
+					<h2 id="comment-title">大家怎么说...</h2>
+					<!-- 用户自己新增的评论-->
+					<div class="comment-list" id="my-comment-list"></div>
+					<!-- 大家的评论 -->
+					<div class="comment-list" id="comment-list"></div>
+					<div class="add-comment" id="add-comment">
+						<div
+								class="add-tip"
+								id="add-comment-tip"
+								onClick="ArticleOperations.addComment()"
+						>.</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- 模板区域^ -->
+	<style>
+		.template {
+			display: none;
+		}
+		.article-operations {
+			padding-bottom: 40px;
+		}
+		.favorite {
+			margin: 20px 10px;
+		}
+		.favorite .add-btn {
+			display: inline-block;
+			border-radius: 5px;
+			padding: 8px 15px;
+			background-color: #f96d6d;
+			color: #fff;
+		}
+		.favorite .add-btn.added {
+			background-color: #3b99da;
+			color: #fff;
+		}
+		.favorite .favorite-tip {
+			display: inline-block;
+			margin-left: 10px;
+			font-size: 12px;
+			color: #bbb;
+		}
+		.comment h2 {
+			color: #333;
+			font-size: 18px;
+			margin: 20px 10px;
+		}
+		.comment .comment-list .comment-item {
+			margin: 15px 10px 15px 25px;
+		}
+		.comment .comment-list .comment-item .username{
+			color: #2a90d7;
+		}
+		.comment .comment-list .comment-item .content{
+			margin: 10px 0 5px 0;
+		}
+		.comment .comment-list .comment-item .post-time{
+			font-size: 12px;
+			color: #aaa;
+		}
+		.comment .add-comment {
+			height: 30px;
+			position: fixed;
+			bottom: 0;
+			border-top: 1px solid #ddd;
+			background-color: #f0f0f0;
+			padding: 5px 15px;
+		}
+		.comment .add-comment .add-tip {
+			border-radius: 10px;
+			line-height: 20px;
+			padding: 5px;
+			font-size: 14px;
+			color: #f0f0f0;
+			background-color: #fff;
+		}
+	</style>
+		<!-- 收藏页面 -->
+		<section class="template" id="tpl-favorite">
+			<div class="favorite">
+				<div
+					class="add-btn {{#isAdded}}added{{/isAdded}}"
+					onClick="{{#isAdded}}ArticleOperations.delFavorite(){{/isAdded}}{{^isAdded}}ArticleOperations.addFavorite(){{/isAdded}}"
+				>
+					{{#isAdded}}取消收藏{{/isAdded}}
+					{{^isAdded}}收藏页面{{/isAdded}}
+				</div>
+				<div class="favorite-tip">
+					{{#isAdded}}点击按钮取消收藏本页面{{/isAdded}}
+					{{^isAdded}}收藏后在“我的”-“页面收藏”中可查看{{/isAdded}}
+				</div>
+			</div>
+		</section>
+		<!-- 单条评论 -->
+		<section class="template" id="tpl-comment">
+			{{#list}}
+			<div class="comment-item">
+				<div class="username">{{userName}}</div>
+				<div class="content">{{comments}}</div>
+				<div class="post-time">{{createdAt}}</div>
+			</div>
+			{{/list}}
+		</section>
+	<!-- 模板区域$ -->
+  </body>
+</html>
+<script type="text/javascript" src="../../script/SHA1.js"></script>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/mustache.min.js"></script>
+<script type="text/javascript" src="../../script/utils.js"></script>
+<script>
+
+
+	/**
+	 * 文章相关操作：收藏、评论
+	 */
+	var ArticleOperations = (function () {
+		// 初始化模板引擎
+		var templetes = {
+			favorite: $api.html($api.byId('tpl-favorite')),
+			comment: $api.html($api.byId('tpl-comment'))
+		};
+		_.forEach(templetes, function (tpl) {
+			Mustache.parse(tpl);
+		});
+
+		var pageId = '';
+
+		// 收藏文章
+		var Favorite = (function () {
+			var $favorite = $api.byId('favorite');
+
+			function render(isAdded) {
+				var html = Mustache.render(templetes.favorite, {isAdded: isAdded});
+				$api.html($favorite, html);
+			}
+
+			function init() {
+				utils.fetch(
+						'http://120.26.207.162/bidservice/favoritesGET.php',
+						{
+							pageId: pageId
+						},
+						function (res) {
+							render(!!res);
+						}
+				);
+			}
+
+			function add() {
+				utils.fetch(
+						'http://120.26.207.162/bidservice/favoritesADD.php',
+						{
+							pageId: pageId
+						},
+						function (res) {
+							res ? render(true) : utils.showNetErrorTip();
+						}
+				);
+			}
+
+			function del() {
+				utils.fetch(
+						'http://120.26.207.162/bidservice/favoritesDEL.php',
+						{
+							pageId: pageId
+						},
+						function (res) {
+							render(false);
+						}
+				);
+			}
+
+			return {
+				init: init,
+				add: add,
+				del: del
+			};
+
+		})();
+
+		// 评论文章
+		var Comment = (function () {
+			var PAGE_LENGTH = 60;
+			var POST_TIME_FORMAT = 'YYYY-MM-DD HH:mm';
+
+			var $commentList = $api.byId('comment-list');
+			var $myCommentList = $api.byId('my-comment-list');
+			var $commentTitle = $api.byId('comment-title');
+			var ADD_TIP = '写评论...';
+			var pageNo = 1;
+			var hashMore = true;
+
+			$api.html($api.byId('add-comment-tip'), ADD_TIP);
+
+			function formatList(list) {
+				// 如果没有评论内容，则不显示
+				pageNo === 2 && !list.length && $api.addCls($commentTitle, 'none');
+				list.length && $api.removeCls($commentTitle, 'none');
+				return _.map(list, function (item) {
+					return _.extend({}, item, {
+						createdAt: moment(item.createdAt).format(POST_TIME_FORMAT)
+					});
+				});
+			}
+
+			function renderAppendList(list) {
+				var html = Mustache.render(templetes.comment, {list: formatList(list)});
+				$api.append($commentList, html);
+			}
+
+			function renderAppendMyList(item) {
+				var html = Mustache.render(templetes.comment, {list: formatList([item])});
+				$api.append($myCommentList, html);
+				$myCommentList.scrollIntoView && $myCommentList.scrollIntoView();
+			}
+
+			function load() {
+				if (!hashMore) {
+					return false;
+				}
+				utils.fetch(
+						'http://120.26.207.162/bidservice/commentsGET.php',
+						{
+							pageId: pageId,
+							pageno: pageNo++
+						},
+						function (res) {
+							var list = res || [];
+							// 如果加载到这一页小于每页最大值，则认为“没有更多了”
+							list.length < PAGE_LENGTH && (hashMore = false);
+							renderAppendList(list);
+						}
+				);
+			}
+
+			function init() {
+				load();
+				api.addEventListener({
+					name:'scrolltobottom'
+				}, function(){
+					load();
+				});
+			}
+
+			function add() {
+				api.prompt({
+					title: ADD_TIP,
+					buttons: ['确定', '取消']
+				}, function (ret) {
+					if (ret.buttonIndex !== 1) {
+						return false;
+					}
+					var content = ret.text;
+					api.showProgress();
+					utils.fetch(
+							'http://120.26.207.162/bidservice/commentsADD.php',
+							{
+								pageId: pageId,
+								comments: content,
+								tbname:api.pageParam.tbname
+							},
+							function (res) {
+								api.hideProgress();
+								res
+									? renderAppendMyList(_.extend({
+										comments: content,
+										createdAt: moment().format()
+									}, res[0] || res))
+									: utils.showNetErrorTip();
+							}
+					);
+				});
+			}
+
+			return {
+				init: init,
+				add: add
+			};
+
+		})();
+
+		// 文章相关操作整体初始化
+		function init(_pageId) {
+			pageId = _pageId;
+			$api.removeCls($api.byId('article-operations'), 'none');
+			$api.css($api.byId('add-comment'), 'width:' + (api.winWidth - 30) + 'px');
+			Favorite.init();
+			Comment.init();
+		}
+
+		// exports
+		return {
+			init: init,
+			addFavorite: Favorite.add,
+			delFavorite: Favorite.del,
+			loadComment: Comment.load,
+			addComment: Comment.add
+		};
+
+	})();
+
+	apiready = function(){
+		//api.showProgress();
+		//alert("tbname:"+api.pageParam.tbname+"id:"+api.pageParam.id);
+		$api.skin();
+		api.ajax({
+			url:'http://120.26.207.162/jxsggzy/newstitle_newsdetails.php',
+			method: 'get',
+			cache: false,
+			timeout: 30,
+			dataType: 'json',
+			data: {
+				values:{tbname:api.pageParam.tbname,url:api.pageParam.id} //api.pageParam.pId
+			}
+		},function(ret,err){
+			if (ret) {
+				var pageTitle = ret[0].newstitle;
+
+				//alert(JSON.stringify( ret ));
+				var hitcount=parseInt(ret[0].hitcount);
+				if (isNaN(hitcount)){hitcount=0;}
+				var ht = '<div class="article-title">'+pageTitle+'<p>【信息发布时间：'
+						+ret[0].newstime+'&nbsp;&nbsp;App阅读次数：'+hitcount+'】</p></div>'+
+						'<div class="article">'+ret[0].newsdetails.replace(/\n\n/g,"<br />")+'</div>';//newsdetailstext
+				$api.prepend( $api.dom('.win-article .con'), ht );
+				$api.addCls( $api.dom('.win-article'), 'opacity' );
+				//$api.addCls( $api.dom('.more'), 'none' );
+				$api.removeCls( $api.dom( '.'+api.winName ), 'none' );
+				//api.hideProgress();
+
+				// 初始化文章相关操作
+				ArticleOperations.init(pageTitle);
+			} else {
+				//api.toast({msg: err.msg, location: 'middle'})
+			}
+
+			//	$api.removeCls( $api.dom('body'), 'default-bg' );
+		});
+	};
+
+
+
+	function funOpenWin( tag ){
+		var name = tag.getAttribute('data-name');
+		$api.setStorage( 'backFrame' , name );	//设置需要关闭的frame
+		api.openFrame({
+			name: name,
+			url : './openWin.html',
+			rect: {
+				x: 0,
+				y: 0,
+				w: api.winWidth,
+				h: api.winHeight
+			},
+			pageParam:{
+				id :api.pageParam.id
+			}
+		});
+	};
+
+
+		function goContent(){
+		location.href = '#content';
+	}
+
+</script>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html style="font-size: 12px;">
+<head>
+    <title>关于我们</title>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <link href="../../css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../css/common1.css" />
+    <style>
+        body{ background-color: #fafafa; }
+        .win-article{  transition:all 0s;  opacity: 1; }
+        .win-article .con{ padding:10px;}
+        .win-article .con .article-title{ color:#555; padding-bottom:5px; font-size: 1.4rem; line-height: 2rem;}
+        .win-article .con .article-about { color:#b9b9b9; padding:6px 0; font-size: 1rem; line-height: 1.4rem;}
+        .win-article .con .article-content{ color:#464646;  padding-bottom: 20px; font-size: 1.2rem; line-height: 1.6rem;}
+        .win-article .con .article-content p{ padding:10px 0; line-height:22px; }
+        .win-article .con .article-content p a{ color: #3c6598; padding:0 8px; }
+        .win-article .con .article-content img{ max-width:100%; display:block; margin:10px auto; }
+        .win-article .con .article-content iframe,
+        .win-article .con .article-content video{ width:100%; display:block; margin:10px auto; }
+    </style>
+</head>
+<body>
+<div class="win-article">
+    <div class="con">
+<br />
+<div style="font-size: 22pt;text-align: center">
+	<img src="../../icon/icon.png" width="100" height="100" alt="">
+</div>
+<div style="font-size: 20pt;text-align: center">标标</div>	
+<div style="font-size: 9pt;color: #666666;text-align: center">1.0.0</div>
+<br />
+<div style="font-size: 10pt;color: #000;padding:1px  5px  1px   5px; ">全通文数-标标是全通软件服务有限公司旗下的一款企业级数据服务产品，旨在为用户提供快速查询招标信息、单位信息、专家信息、产品信息等服务，通过多模式查询和大数据分析技术，为数据创造价值。</div>
+<br />
+<br />
+<br />
+<br />
+<div style="font-size: 9pt;color: #666666;">&nbsp;&nbsp;<label class="active-ars"></label> 联系我们</div>
+
+<br />
+<span style="font-size: 9pt;"> &nbsp;&nbsp; &nbsp;&nbsp; <img src="../../image/server_tabbar_pressed.png" width="10" height="10" alt="">&nbsp;网址： </span>
+<span style="font-size: 9pt;color: #666666;">http://www.allsoftcould.com</span>
+<br />
+<span style="font-size: 9pt;"> &nbsp;&nbsp; &nbsp;&nbsp; <img src="../../image/feedbackicon_profile.png" width="10" height="10" alt="">&nbsp;邮箱： </span>
+<span style="font-size: 9pt;color: #666666;">itc@allsoftcould.com</span>
+<br />
+<br /><br />
+<br />
+<div style="font-size: 9pt;color: #666666;text-align: center"> Copyright©2016 全通软件服务有限公司</div>
+</div>
+
+</div>
+</body>
+
+</html>
+<script>
+    apiready = function(){
+
+    };
+		function funOpenHeader_agre( tag ){
+		var name = tag.getAttribute('data-name');
+		//id =encodeURIComponent(id); 
+		//alert("bid-list:id:"+id);
+		api.openWin({
+			name:  name,
+			url: '../public/header.html',
+			pageParam:{
+				file : 'agreement',
+				isShowFontSize: false
+			},
+		});
+	};
+	</script>

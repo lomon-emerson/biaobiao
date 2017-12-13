@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<link rel="stylesheet" href="../../css/api1.css">
+	<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+	<style>
+	html,body{height:100%;}
+	body{background-color:rgb(247,247,247);}
+			div.flex-wrap{  -webkit-box-orient: vertical; -webkit-flex-flow: column; flex-flow: column;  height:100%; }
+		div.flex-con{ overflow:auto; }
+	.header{height:50px;background-color:#FAFAFA;display:-webkit-box;-webkit-box-align:center;position:relative;}
+	.header-search{display:-webkit-box;-webkit-box-flex:1;background-color:#EBEBEB;height:30px;border:1px solid #EBEBEB;border-radius:10px;margin-left:10px;}
+	.header-search-input{display:-webkit-box;-webkit-box-flex:1;padding-left:50px;color:#000000;height:30px;outline-style:none;}
+	.header-cross{height:30px;width:30px;background:url(../../image/close.png);background-size:contain; position:absolute;right:50px;top:10px;}
+	.header-selectView{height:00px;width:0px;background-color:rgb(222,222,222);background:url(../../image/menu-l.png) center no-repeat;background-size:90%;display:none;margin:0 0 0 10px;}
+	.header-secrchImg{height:40px;width:40px;background-color:rgb(200,0,0);background:url(../../image/search.png) center no-repeat;background-size:50%;}
+	.header-backImg{height:40px;width:40px;background-color:rgb(200,0,0);background:url(../../image/back_move_details_normal_night.png) center no-repeat;background-size:50%;}
+	.search-wrap{display:block;}
+	.search-main{padding:0 10px;}
+	.search-main-title{color:#000000;margin:0 0 10px 10px;}
+	.search-main-title-ul{width:100%;}
+	.search-main-title-li{border:1px solid rgb(183,183,183);height:50px;line-height:50px;text-align:center;width:31.33%;float:left;box-sizing:border-box;border-radius:10px;margin:1%;background-color:rgb(255,255,255);}
+	.showResult{width:100%;height:100%;display:none;}
+	.showResult-nav{height:40px;box-sizing:border-box;border-bottom:1px solid rgb(200,200,200);}
+	.showResult-nav-ul{width:100%;}
+	.showResult-nav-li{float:left;width:25%;box-sizing:border-box;height:40px;line-height: 40px;text-align:center;}
+	.showResult-nav-price-arrow{width:10px;height:10px;background-color:rgb(255,255,255);background:url(../image/icon1.png) 0 -70px no-repeat;margin:0 0 0 5px;}
+	.showResult-list{height:100%;background-color:rgb(255,255,255);display:block;}
+	.showResult-list-wrap{margin:0 10px;}
+	.showResult-list-wrap-item{overflow:hidden;border-bottom:1px solid rgb(222,222,222);}
+	.showResult-list-wrap-item-img{height:60px;width:30px;margin:20px; background-color:rgb(222,222,222);display:inline-block;float:left;}
+	.showResult-list-wrap-item-name{margin:15px 0 5px 0;}
+	.showResult-list-wrap-item-notice{color:rgb(150,150,150);font-size:12px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+	.showResult-list-wrap-item-price{color:rgb(200,0,0);margin:5px 0;}
+	.showResult-list-wrap-item-evaluate{color:rgb(150,150,150);font-size:12px;}
+	.showResult-list-wrap-item-stock{color:rgb(150,150,150);font-size:12px;float:right;}
+		.tag{ border-bottom:10px  padding-bottom:20px; }
+		.tag p{ padding:0 9px; }
+		.tag p span{ border:1px solid rgb(183,183,183);display:block; float:left; margin:.5%; background-color:#f5f5f5; line-height:40px; text-align:center; width:31.33333333333333%; }
+		.title{ padding:15px 10px; color:#464646; }
+		
+		
+		body{  background-color:white; height: auto; }
+	.header{height:50px;background-color:#FAFAFA;display:-webkit-box;-webkit-box-align:center;position:relative;}
+
+		section{ /*  padding-bottom: 46px; */ }
+		section ul { color:#222; line-height:18px; padding:0 10px; overflow: hidden; position: relative; }
+		section ul.pad-b {  padding-bottom: 42px; }
+		section ul li{ padding:10px 0; position:relative;  transition: all .3s; }
+		section ul li.active{ -webkit-transform:translateX( 100% ); transform:translateX( 100% );  opacity: .5; }
+
+		section ul li.more{ text-align:center; color:#aaa;position: absolute; left:0; bottom: 0; right: 0; }
+		section ul li.more span{ background:url(../../image/spinner_76_inner_holo.png) no-repeat; background-size:100% 100%; display:inline-block; width:16px; height:16px; vertical-align:middle; -webkit-animation:fa-spin 1s infinite steps(8); animation:fa-spin 1s infinite steps(8); }
+		section ul li.more b{ font-weight:normal;  vertical-align:middle;  display:inline-block;padding:0 10px;  }
+		section ul li:last-child:before,
+		section ul li:last-child:after{ display: none !important; }
+
+	</style>
+</head>
+<body>
+	<div class="header">
+	<div class="header-backImg" onclick="api.closeWin();" id="header-backImg"></div>
+		<div class="header-search">
+			<input class="header-search-input" id="header-search-input" type="text" placeholder="搜索招投标信息" value="">
+		</div>
+		<a href="javascript:;" class="header-cross" id="header-cross"></a>
+		<div class="header-selectView" id="header-selectView"></div>
+		<div class="header-secrchImg" id="header-secrchImg"></div>
+	</div>
+	<div class="search-wrap" id="search-wrap">
+		<div class="hr-10"></div>
+		<nav class="tag" >
+		<header class="title" >
+		热词推荐
+		</header>
+		<p id="channel" >
+					<!-- <span>贾玲</span> -->
+		</p>
+		</nav>
+	</div>
+	<div class="showResult" id="showResult">
+		<div class="showResult-nav">
+			<ul class="showResult-nav-ul after">
+				<li class="showResult-nav-li" id="showResult-nav-relevancy" tapmode onclick="search(keyword,1,'desc');">相关度</li>
+				<li class="showResult-nav-li" id="showResult-nav-new" tapmode onclick="search(keyword,2,'desc');">最新</li>
+				<li class="showResult-nav-li" id="showResult-nav-popularity" tapmode onclick="search(keyword,3,'desc');">人气</li>
+				<li class="showResult-nav-li" id="showResult-nav-price" tapmode onclick="search(keyword,4,'desc');">价格<span class="showResult-nav-price-arrow" id="showResult-nav-price-arrow"></span></li>
+			</ul>
+		</div>
+		<div class="showResult-list" id="showResult-list">
+			<div class="showResult-list-wrap" id="showResult-list-wrap">
+			<li class="more"><span></span><b>正在刷新</b></li>
+			</div>
+		</div>
+		<div class="showResult-icon" id="showResult-icon">
+			<ul id="showResult-icon-ul">
+	
+			</ul>
+		</div>
+	</div>
+	
+	<section>
+		<ul id="list" class="pad-b" >
+			 <li class="more"><span></span><b>正在刷新</b></li>
+		</ul>
+	</section>
+	</body>
+	
+</html>
+	<script src="../../script/api1.js"></script>
+	<script src="../../script/doT.min.js"></script>
+	<script>
+	var keyword = null;
+	var priceSwith = 1;
+	
+	var keywords = []; //定义数组
+	 
+	var index=1;
+    var curindex=1;
+    var Num=2;
+    var curCount=1;    
+    var retdatas=[];
+	var title="";
+	apiready = function () {
+        index=0;
+        curindex=0;
+        count=0;   
+	   //$api.removeCls( $api.dom('#list'), '.more' );
+	   $api.addCls( $api.dom('#list .more'), 'none' );
+	    api.ajax({
+	    url:'http://120.26.207.162/jxsggzy/popular.php',
+	    method: 'get',
+	 	cache: false,
+	  	timeout: 30,
+	  	dataType: 'json',
+    },function(ret,err){
+        if (ret) {		   
+	   // if( $api.hasCls( $api.dom('#showResult-list-wrap .more'), 'none' ) )$api.removeCls( $api.dom('#showResult-list-wrap .more'), 'none' );
+       for (var i = 0, len =ret.length; i < len; i++) { 
+        	
+        		var ht='<span tapmode="hover" onclick="search(\''+ret[i].newstitle+'\',1,\'desc\');">'+ret[i].newstitle+'</span>';
+        		//var ht ='<ul class="search-main-title-ul after">'+        		
+				//'<li class="search-main-title-li" tapmode onclick="search(\''+ret[i].newstitle+'\',1,\'desc\');">'+ret[i].newstitle+'</li>'+			
+				//'</ul>';
+			$api.append( $api.dom('#channel'), ht);
+		}
+
+        api.parseTapmode();
+			//var wrap_main_template = document.getElementById('search-main-template').innerHTML;
+			//document.getElementById('search-main').innerHTML = doT.template(wrap_main_template)(ret[0]);
+	
+        } else {
+         	if( $api.hasCls( $api.dom('#showResult-list-wrap .more'), 'none' ) )$api.removeCls( $api.dom('#showResult-list-wrap .more'), 'none' );
+           	api.toast({msg: err.msg, location: 'middle'})
+        }
+
+    });
+    
+		document.getElementById('header-search-input').focus();
+
+    
+        api.addEventListener({ name:'scrolltobottom'},function(ret,err){
+    //operation
+    loadData(title);
+});  
+        api.addEventListener({name: 'viewappear'}, function(ret, err){		
+		
+		//var key="restData";       
+        //restData = $api.getStorage(key);        
+        //restData.tid+="添加!";        
+        //alert(restData.tid);
+        
+        }); 
+    api.setRefreshHeaderInfo({
+        visible: true,
+        // loadingImgae: 'wgt://image/refresh-white.png',
+        bgColor: '#f2f2f2',
+        textColor: '#4d4d4d',
+        textDown: '下拉刷新...',
+        textUp: '松开刷新...',
+        showTime: true
+    }, function(ret, err){    	    	
+     loadTopData();
+    });    
+  
+          
+	}
+	
+	function loadTopData(){
+  api.refreshHeaderLoadDone();//无作用！        
+}
+	
+	var search = function(param,pattern,ascDesc){
+		title=param;
+		index=0;
+        curindex=0;
+        curCount=1; 
+        count=0;   
+		//api.showProgress();
+		keyword=param;
+		var scValue = null;
+		keywords.push(title);
+		$api.setStorage("keywords",JSON.stringify(keywords));
+		$api.addCls( $api.dom('#list .more'), 'none' );
+		$api.html($api.byId("showResult-list-wrap"),'');
+		//$(".showResult-list-wrap").html(none);
+		switch(pattern){
+			case 1:
+				scValue = 'updatedAt';
+				document.getElementById('showResult-nav-relevancy').style.borderBottom='1px solid rgb(200,0,0)';
+				document.getElementById('showResult-nav-new').style.borderBottom='0px solid rgb(200,0,0)';
+				document.getElementById('showResult-nav-popularity').style.borderBottom='0px solid rgb(200,0,0)';
+				document.getElementById('showResult-nav-price').style.borderBottom='0px solid rgb(200,0,0)';
+					document.getElementById('showResult-nav-price-arrow').style.backgroundPosition='0 -70px';
+				break;
+			case 2:
+				scValue = 'createdAt';
+				document.getElementById('showResult-nav-relevancy').style.borderBottom='0px solid rgb(200,0,0)';
+				document.getElementById('showResult-nav-new').style.borderBottom='1px solid rgb(200,0,0)';
+				document.getElementById('showResult-nav-popularity').style.borderBottom='0px solid rgb(200,0,0)';
+				document.getElementById('showResult-nav-price').style.borderBottom='0px solid rgb(200,0,0)';
+					document.getElementById('showResult-nav-price-arrow').style.backgroundPosition='0 -70px';
+				break;
+			case 3:
+				scValue = 'sort';
+				document.getElementById('showResult-nav-relevancy').style.borderBottom='0px solid rgb(200,0,0)';
+				document.getElementById('showResult-nav-new').style.borderBottom='0px solid rgb(200,0,0)';
+				document.getElementById('showResult-nav-popularity').style.borderBottom='1px solid rgb(200,0,0)';
+				document.getElementById('showResult-nav-price').style.borderBottom='0px solid rgb(200,0,0)';
+					document.getElementById('showResult-nav-price-arrow').style.backgroundPosition='0 -70px';
+				break;
+			case 4:
+				scValue = 'price';
+				if(priceSwith===1){
+					ascDesc = 'desc';
+					priceSwith = 2;
+					document.getElementById('showResult-nav-price-arrow').style.backgroundPosition='0 -110px';
+				} else {
+					ascDesc = 'asc';
+					priceSwith = 1;
+					document.getElementById('showResult-nav-price-arrow').style.backgroundPosition='0 -90px';
+				}
+				document.getElementById('showResult-nav-relevancy').style.borderBottom='0px solid rgb(200,0,0)';
+				document.getElementById('showResult-nav-new').style.borderBottom='0px solid rgb(200,0,0)';
+				document.getElementById('showResult-nav-popularity').style.borderBottom='0px solid rgb(200,0,0)';
+				document.getElementById('showResult-nav-price').style.borderBottom='1px solid rgb(200,0,0)';
+				break;
+			default:
+				// code...;
+		}
+		
+		var retValue1 = [];	
+	    loadData(title);
+
+
+		document.getElementById('search-wrap').style.display='none';
+		document.getElementById('showResult').style.display='block';
+		document.getElementById('header-selectView').style.display='block';
+		document.getElementById('header-cross').style.right= '90px';
+
+		//api.hideProgress();
+
+		// alert(param);
+	}
+	/*click cross*/
+	document.getElementById('header-cross').onclick = function(){
+		document.getElementById('header-search-input').value='';
+		document.getElementById('header-search-input').focus();
+		document.getElementById('search-wrap').style.display='block'
+		document.getElementById('showResult').style.display='none';
+		document.getElementById('header-selectView').style.display='none';
+		document.getElementById('header-cross').style.right= '50px';
+		$api.addCls( $api.dom('#list .more'), 'none' );
+	}
+	/*click magnifier*/
+	document.getElementById("header-secrchImg").onclick = function(){
+		var header_search_input_value = document.getElementById("header-search-input").value;
+		if(header_search_input_value === ''){
+			search(document.getElementById('header-search-input').placeholder,1,'desc');
+		} else {
+			search(document.getElementById('header-search-input').value,1,'desc');
+		}
+	}
+	
+	
+	function loadData(title){
+
+   // $api.addCls( $api.dom('#showResult-list-wrap '), '.more' );
+   	   $api.removeCls( $api.dom('#list .more'), 'none' );
+   // $api.addCls( $api.dom('#list'), '.more' );
+     api.ajax({
+	    url:'http://120.26.207.162:8080/webjson/userServlet/userSearch',
+	    method: 'get',
+	 	cache: false,
+	  	timeout: 30,
+	  	dataType: 'json',
+	  	data: {
+	    	values:{tbname:	api.pageParam.tbname,pageno:curCount,title:title}
+	  	}
+    },function(ret,err){
+        if (ret) {
+        if(ret.length>0)
+        {        		   	         	    
+
+				var content=$api.byId("showResult-list-wrap");           	           	    
+        	     for (var i = 0, len =ret.length; i < len; i++) { 
+                   var a=createItem(ret[i],index);                                     
+                   content.appendChild(a);
+                   index++;  
+            	}
+             //   var showResult_list_template = document.getElementById('showResult-list-template').innerHTML;
+				//document.getElementById('showResult-list-wrap').innerHTML = doT.template(showResult_list_template)(ret);
+				//content.appendChild(doT.template(showResult_list_template)(ret));	
+            curCount++;
+            }
+			api.refreshHeaderLoadDone();
+			//api.hideProgress();
+        } else {
+           	api.toast({msg: err.msg, location: 'middle'})
+        }
+    });
+    
+}
+
+    function createItem(ds,idx)
+    {
+    var ht1='';
+	if(api.pageParam.tbname=='zfcg3'&&ds.payments>0){ht1=' &nbsp;&nbsp;&nbsp;&nbsp;中标价：'+Math.round(ds.payments/10000)+'万元 ';}
+	if(api.pageParam.tbname=='zfcg0'&&ds.budget>0){ht1=' &nbsp;&nbsp;&nbsp;&nbsp;预算：'+Math.round(ds.budget/10000)+'万元 ';}
+    	var a=document.createElement("div");    
+           $api.attr(a,'class','showResult-list-wrap-item');
+           $api.attr(a,'tapmode','itemhover');
+        var s='openSearchWin("header","'+ds.newsurl+'")';
+           $api.attr(a,'onclick',s); 						
+	var str='<p class="showResult-list-wrap-item-name">'+ds.newstitle+'</p>';
+	str+='<p class="showResult-list-wrap-item-evaluate">'+ds.newstime;
+	str+='<span class="showResult-list-wrap-item-evaluate"> &nbsp;&nbsp;&nbsp;&nbsp;'+ds.hitcount+'人阅读</span>';
+	str+='&nbsp;&nbsp;&nbsp;&nbsp; 0人评论';
+	str+=ht1+'</p>';
+	       $api.html(a,str);             
+       return a;
+    }
+    
+	
+	function clearText() {
+var content=document.getElementById("showResult-list-wrap");
+alert("")
+for (var i=0;i<content.childNodes.length;i++){
+ var childNode = content.childNodes[0];  //总是删除第一个，是不是更简单
+ content.removeChild(childNode);
+}
+}
+	
+	var openSearchWin = function(name,pId){
+			var id =encodeURIComponent(pId);  
+	        api.openWin({
+	            name:name,
+	            url:name+'.html',
+	            pageParam:{
+	            	tbname:api.pageParam.tbname,
+	            	id:id,				
+	            	},
+	        });
+	}
+
+
+	</script>

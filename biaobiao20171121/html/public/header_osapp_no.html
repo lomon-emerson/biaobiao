@@ -1,0 +1,187 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>今日头条</title>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+	<style>
+		div.flex-wrap{  -webkit-box-orient: vertical; -webkit-flex-flow: column; flex-flow: column;  height:100%; }
+		div.flex-con{ overflow:auto; }
+		.top{ line-height:42px; height:42px;  text-align:center;  background-color: #FFFFFF;color:#5d5d5d; font-size:1.2rem; position:relative; border-bottom:1px solid rgb(222,222,222);}
+		.top span{ width:42px; height:42px; display:block; position:absolute; color:#a0a0a0; font-size:.8rem; bottom:0; background-repeat:no-repeat; background-position:center; background-size:50% auto; }
+		.top span.ic-back{ left:0; }
+		.top span.ic-font-family,
+		.top span.ic-more,
+		.top span.ic-share{ right:0; }
+		.top span.btn{ right:0; background: none; }
+		
+		.none{ display: none !important; }
+		
+		.search{ background-color: #ebebeb; }
+		.search input{ width: 56%;  background-repeat:no-repeat; background-position:10px center; background-size:auto 60% ; line-height: 28px; border: 0; border-radius: 50px; margin-left: -6px; padding-left: 30px; padding-right: 10px; outline: none;  }
+		
+		.blue{ color: #2a90d7 !important; }
+		
+		.fot{ text-align:center; background-color:#fafafa; height:32px; color:#7f7f7f;  line-height: 32px; padding: 4px 0;   }
+		.fot-txt{  height:auto; color:#9a9a9a;  line-height: 16px; padding: 10px 0; background-color: white;  }
+		.fot p{ background-repeat:no-repeat; background-position: center; background-size:17px;  font-size:.8rem; }
+		.fot .edit{ background-repeat:no-repeat; background-position: 10px center; background-size:17px; padding-left: 34px;  padding-right: 20px; border-right: 1px solid #eee; }
+	</style>
+</head>
+<body>
+	<div class="flex-wrap" >
+			<header class="top border-b report-frm none">	<!-- 举报文章头部 -->
+			举报文章问题
+			<span tapmode="hover" onclick="api.closeWin();" class="ic-back"></span>
+			<span class="btn">提交</span>
+		</header>
+		<header class="top border-b none">	<!-- 活动头部 -->
+			活动
+			<span tapmode="hover" onclick="api.closeWin();" class="ic-back"></span>
+			<span class="ic-more"></span>
+		</header>
+		<header class="top border-b  article-frm">	<!-- 文章头部 -->
+			<span tapmode="hover" onclick="api.closeWin();" class="ic-back"></span>
+			<span tapmode="hover" onclicK="$api.empty();" class="ic-font-family"></span>
+		</header>
+		<div class="flex-con"></div>
+		<nav class="fot flex-wrap article-frm border-t">	<!-- 文章底部 -->
+			<div tapmode="hover" onclick="funOpenWin( this );" data-name="edit-frm" class="edit ic-edit">写评论</div>
+			<p tapmode="hover" onclick="goContent();"   class="flex-con ic-comment" ></p>
+			<p tapmode="hover"  onclick="checkbox( this )" class="flex-con ic-favor" ></p>
+			<p tapmode="hover"  onclick="funOpenWin( this );" data-name="share-frm"   class="flex-con ic-share" ></p>
+			<p tapmode="hover" onclick="$api.empty();" data-name="report-frm" class="flex-con ic-report" ></p>
+		</nav>
+		<nav class="fot  fot-txt report-frm none">	<!-- 举报文章底部 -->
+			<p>举报侵权请联系</p>
+			<p>jubao@toutiao.com</p>
+		</nav>
+	</div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/SHA1.js"></script>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript">
+	apiready = function(){
+		//$api.skin();
+		$api.removeCls( $api.dom( '.top.'+api.winName ), 'none' );
+		$api.removeCls( $api.dom( '.fot.'+api.winName ), 'none' );
+		$api.fixIos7Bar( $api.dom( '.top.'+api.winName ) );
+		api.openFrame({
+			name: api.winName,
+			url : 'article.html',
+			bounces : false,
+			rect: {
+				x: 0,
+				y: $api.dom('.top:not(.none)') ? $api.dom('.top:not(.none)').offsetHeight : 0,
+				w: api.winWidth,
+				h: $api.dom('.flex-con').offsetHeight
+			},
+			pageParam:{
+				tbname:api.pageParam.tbname,
+				id : api.pageParam.id,
+			}
+		});
+
+	};
+	
+		function funIsBottom(){
+		if( document.body.clientHeight <= document.documentElement.clientHeight +document.body.scrollTop  && $api.domAll('#list .newLi').length >= 5){
+			//	alert( '底部' )
+			funArticleIni( 'append' );
+		}
+		var eBgImg = $api.domAll('.bg-img');
+		for( var i = 0; i < eBgImg.length; i++){
+			var boundingBg = eBgImg[i].getBoundingClientRect();
+			if( boundingBg.bottom > -document.documentElement.clientHeight / 2  && boundingBg.top <= document.documentElement.clientHeight){
+				eBgImg[i].style.backgroundImage = 'url('+eBgImg[i].getAttribute('data-echo')+')';
+				$api.addCls( eBgImg[i], 'load' );
+			}else{
+				eBgImg[i].style.backgroundImage = 'url(../image/default_bg.png)';
+				$api.removeCls( eBgImg[i], 'load' );
+			}
+		}
+	}
+		function funCloseRemove(){
+		if( !$api.hasCls( $api.dom( '.remove' ) , 'none' ) ){
+			 $api.addCls( $api.dom( '.remove' ), 'none' );
+			 $api.removeCls( $api.dom( '#list li.ready' ), 'ready' );
+		}
+	};
+	
+		function funOpenWin( tag ){
+		var name = tag.getAttribute('data-name');
+		$api.setStorage( 'backFrame' , name );	//设置需要关闭的frame
+		api.openFrame({
+			name: name,
+			url : './openWin.html',
+			rect: {
+				x: 0,
+				y: 0,
+				w: api.winWidth,
+				h: api.winHeight
+			},
+			pageParam:{
+				id :api.pageParam.id
+			}
+		});
+	};
+	
+	function goContent(){
+		api.execScript({
+			frameName : api.winName,
+			script: 'goContent()'
+		});
+	}
+		
+		function checkbox ( tag ){
+			if(  $api.getStorage('user') ){
+				if( $api.hasCls(tag, 'active') ){
+					$api.ajax('/article/'+api.pageParam.id, 'put', {"$pull":{is_collect : JSON.parse( $api.getStorage( 'user' ) ).id}  }, function (ret, err) {
+							
+						if( ret ){
+							$api.removeCls( tag, 'active');
+							api.execScript({
+								name: api.winName,
+								frameName : api.winName,
+								script: 'funPra( \'取消收藏\' )'
+							});
+						}else{
+							$api.toast( err.msg );
+						}
+					});
+				}else{
+					$api.ajax('/article/'+api.pageParam.id, 'put', {"$push":{is_collect : JSON.parse( $api.getStorage( 'user' ) ).id}  }, function (ret, err) {
+						if( ret ){
+							$api.addCls( tag , 'active');
+							api.execScript({
+								name: api.winName,
+								frameName : api.winName,
+								script: 'funPra( \'收藏成功\' )'
+							});
+						}else{
+							$api.toast( err.msg );
+						}
+					});
+				}
+			}else{
+				$api.toast( '请先登录' );
+			}
+		};
+		
+		
+	function funOpenHeader( tag ){
+		var name = tag.getAttribute('data-name');
+		api.openWin({
+			name:  name,
+			url: './header.html',
+			pageParam:{
+				file : 'openWin'
+			}
+		});
+	};
+	function clolllectEdit(){
+		
+	}
+</script>

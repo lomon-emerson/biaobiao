@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DEMO</title>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	  <link href="../../css/style.css" rel="stylesheet" type="text/css" />
+	  <link href="../../css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	<style>
+		body{ background-color: #fafafa; }
+		.win-login{ padding:40px; }
+		.win-login .inp {  padding: 6px 0; padding-top:10px;	 margin-top: 10px;}
+		.win-login .inp .icon{ width:30px; height:30px;background:url() no-repeat center; background-size:80%; }
+		.win-login .inp input{ border:0; outline:none; background-color:transparent;}
+		.win-login .link { padding:16px 0; color:#999; }
+		.win-login .link .rt{ float:right; }
+		.win-login .link .hover{  }
+		.win-login .fa-icon.fa-mobile {font-size: 125%;}
+		.win-login .sub { padding:40px 0; }
+		.win-login .sub span{ color:#fe3232; border:1px solid #fe3232; display:block; text-align:center; padding:8px 0; border-radius:4px; width:80%; margin:0 auto; }
+		.win-login .sub span.disabled{ background-color: #ddd; color: #eee; border-color: #ddd;  }
+		.login-frm .sub span:before{ content: '登录' }
+		.login-frm .sub span.disabled:before{ content: '稍后…' }
+		.reg-frm .sub span:before{ content: '注册' }
+		.reg-frm .sub span.disabled:before{ content: '稍后…' }
+		.modify-frm .sub span:before{ content: '修改' }
+		.modify-frm .sub span.disabled:before{ content: '稍后…' }
+
+
+		.personl .bg{max-height: 220px; overflow: hidden; }
+		.personl .bg img{ width:100%; }
+		.personl .title{       display: -webkit-box;    display: -webkit-flex;    display: flex; margin: 0 10px; margin-top: -31px;  }
+		.personl .title .txt{     -webkit-box-flex: 1;     -webkit-flex: 1;    flex: 1; color:white;  padding-left:10px; }
+		.personl .title .txt h6{ padding: 6px 0; }
+		.personl .title .txt h6 span{ display: inline-block; border-radius: 50px; border: 1px solid #ddd; color:#777; float: right; background: url(../../image/profile_action_set_icon.png) no-repeat 10px center; background-size:16px; padding: 4px 10px; padding-left: 30px;  }
+		.personl .title .pic{ width: 60px; height: 60px; overflow: hidden; border-radius: 6px; border:1px solid #eee; }
+		.personl .title .pic img{ width:100%; min-height: 100%; }
+		.personl .con{ padding: 10px; color: #333; line-height: 22px; position: relative;  }
+		.personl .con .link span{ color:#3b99da; }
+		.personl .con:after{     content: '';     position: absolute;     left: 0; bottom:0px;    background: #ddd;     width: 100%;     height: 1px;     -webkit-transform: scaleY(0.5);             transform: scaleY(0.5);     -webkit-transform-origin: 0 0;             transform-origin: 0 0; }
+		.more{ text-align:center; color:#aaa; line-height:42px; }
+
+		body.black .win-login .inp input{ color: #707070; }
+		body.black .win-login .link{ color: #707070; }
+		body.black .win-login .sub span{ color: #935656; border-color: #935656; }
+		body.black .personl .con{ color: #777; }
+		body.black .personl .con:after{  background-color:#363636; }
+		body.black .personl .con .link span{  color:#67778b; }
+		body.black .personl .title .txt h6 span{ background-color: #444; border-color: #444; }
+	</style>
+  </head>
+  <body>
+		<div class="win-login none login-frm">
+			<div class="inp border-b flex-wrap">
+				<i class="fa-icon fa fa-mobile fa-fw"></i>
+				<input id="lo-phone" class="flex-con"  type="number" placeholder="请输入手机号码" />
+			</div>
+
+			<div class="inp border-b flex-wrap">
+				<i class="fa-icon fa fa-key fa-fw"></i>
+				<input id="lo-password" class="flex-con" type="password" placeholder="请输入密码" />
+			</div>
+			<div class="link">
+				<span tapmode="hover" onclick="funOpenHeader( this );" class="rt" data-name="modify-frm">忘记密码</span>
+				<span tapmode="hover" onclick="funOpenHeader( this );"  data-name="reg-frm" >注册账号</span>
+			</div>
+			<div class="sub">
+				<span onclick="funLog( this );" ></span>
+			</div>
+		</div>
+
+
+		<div class="win-login none reg-frm">
+			<div class="inp border-b flex-wrap">
+				<i class="fa-icon fa fa-mobile fa-fw"></i>
+				<input class="flex-con phone-text" type="number" placeholder="请输入手机号码" />
+			</div>
+			<div class="link">
+				<span tapmode="hover" onclick="sendCode();" class="rt send-link">发送验证码</span>
+			</div>
+			<div class="inp border-b flex-wrap">
+				<i class="fa-icon fa fa-envelope-o fa-fw"></i>
+				<input class="flex-con code-text" placeholder="请输入短信验证码" />
+			</div>
+			<div class="inp border-b flex-wrap">
+				<i class="fa-icon fa fa-user fa-fw"></i>
+				<input class="flex-con nickname-text" placeholder="请输入昵称" />
+			</div>
+			<div class="inp border-b flex-wrap">
+				<i class="fa-icon fa fa-key fa-fw"></i>
+				<input class="flex-con password-text" type="password" placeholder="请输入密码" />
+			</div>
+			<div class="inp border-b flex-wrap">
+				<i class="fa-icon fa fa-key fa-fw"></i>
+				<input class="flex-con repassword-text" type="password" placeholder="确认密码" />
+			</div>
+			<div class="sub">
+				<span tapmode="hover" onclick="funReg( this );" ></span>
+			</div>
+		</div>
+
+
+		<div class="win-login none modify-frm">
+			<div class="inp border-b flex-wrap">
+				<i class="fa-icon fa fa-mobile fa-fw"></i>
+				<input class="flex-con phone-text" type="number" placeholder="请输入手机号码" />
+			</div>
+			<div class="link">
+				<span tapmode="hover" onclick="sendCode();" class="rt send-link">发送验证码</span>
+			</div>
+			<div class="inp border-b flex-wrap">
+				<i class="fa-icon fa fa-envelope-o fa-fw"></i>
+				<input class="flex-con code-text" placeholder="请输入短信验证码" />
+			</div>
+			<div class="inp border-b flex-wrap">
+				<i class="fa-icon fa fa-user fa-fw"></i>
+				<input class="flex-con nickname-text" placeholder="请输入昵称" />
+			</div>
+			<div class="inp border-b flex-wrap">
+				<i class="fa-icon fa fa-key fa-fw"></i>
+				<input class="flex-con password-text" type="password" placeholder="请输入密码" />
+			</div>
+			<div class="inp border-b flex-wrap">
+				<i class="fa-icon fa fa-key fa-fw"></i>
+				<input class="flex-con repassword-text" type="password" placeholder="确认密码" />
+			</div>
+			<div class="sub">
+				<span tapmode="hover" onclick="funReg( this );" ></span>
+			</div>
+		</div>
+		
+		
+		  <div class="personl none personl-frm">
+			  <div class="bg">
+				  <img src="../../image/Untitled-1.jpg" />
+			  </div>
+			  <div class="title">
+				  <!--
+					<div class="pic">
+					  <img src="../../image/b58f8c5494eef01fbf0123cde2fe9925bc317da4.jpg" />
+				  </div>
+				  <div class="txt">
+					  <h6>往右</h6>
+					  <h6><span>设置</span></h6>
+				  </div>  
+				 -->
+			  </div>
+			  <div class="con">
+				  <div class="link">
+					  <span>订阅</span>
+					   0 | 
+					   <span>关注</span>
+					   0 |
+					   <span>粉丝</span>
+					   0
+				  </div>
+				  刚开始你的旅途
+			  </div>
+			  <div class="more">点击加载更多</div>
+		  </div>
+  </body>
+</html>
+<script type="text/javascript" src="../../script/SHA1.js"></script>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="../../script/utils.js"></script>
+<script>
+	var sendVerify = {
+		phone: '',
+		code: '',
+		session_id: ''
+	};
+	apiready = function(){
+//		$api.skin();
+		$api.removeCls( $api.dom( '.'+api.winName ), 'none' );
+		var $form = $('.win-login:not(.none)');
+		var isModify = $form.hasClass('modify-frm');
+		if (isModify) {
+			var userInfo = utils.getUserInfo();
+			$('.phone-text', $form).val(userInfo ? userInfo.phone : '');
+			$('.nickname-text', $form).val(userInfo ? userInfo.userName : '');
+		}
+	}
+
+	function sendCode() {
+		var $form = $('.win-login:not(.none)');
+		var isModify = $form.hasClass('modify-frm');
+		var $send = $('.send-link', $form);
+		if($send.data('isSending')){
+			return false;
+		}
+		var phone = $('.phone-text', $form).val();
+		if( ! /^1\d{10}$/.exec( phone )  ){
+			return $api.toast( '手机格式有误！( 11位数字 )' );
+		}
+		$send.data('isSending', true);
+		$send.text('正在发送...');
+		utils.fetch('http://120.26.207.162/alidayu/sendMsg.php', {
+			phone: phone,
+			type: isModify ? 'mod' : 'new',
+			isNoNeedLogin: true
+		}, function (ret, err) {
+			sendVerify.phone = phone;
+			sendVerify.code = +ret.code;
+			sendVerify.session_id = ret.session_id;
+			$api.toast( '验证码已发送~' );
+			var sec = 59;
+			var handle = null;
+			handle = window.setInterval(function () {
+				if (!sec) {
+					window.clearInterval(handle);
+					$send.text('发送验证码');
+					$send.data('isSending', false);
+					return;
+				}
+				$send.text('没有收到？' + sec-- + '秒后可再次发送');
+			}, 1000);
+		});
+	}
+	
+
+	function funOpenHeader( tag ){
+		var name = tag.getAttribute('data-name');
+		api.openWin({
+			name:  name,
+			url: '../public/header.html',
+			pageParam:{
+				file : 'login-reg',
+				isShowFontSize: false
+			}
+		});
+	};
+	
+	function funLog( tag ){
+		if( ! $api.hasCls( tag ,'disabled' ) ){
+			var phone = $api.dom('#lo-phone');
+			var password = $api.dom('#lo-password');
+			if( !$api.val( phone ) ){
+				$api.toast( '手机不能为空！' );
+			}else if(  !$api.val( password )  ){
+				$api.toast( '密码不能为空！' );
+			}else{
+				$api.addCls( tag, 'disabled' );
+				setTimeout(function(){
+					$api.removeCls( tag, 'disabled' );
+				},5000);
+				var bodyParam = {
+					phone: $api.val( phone ),
+					password: $api.val( password ),
+					isNoNeedLogin: true
+				};
+				utils.fetch('http://120.26.207.162/bidservice/userGET.php', bodyParam, function (ret, err) {
+					if (ret) {
+						utils.setStorage( 'userInfo' , ret[0] );
+						api.sendEvent({
+							name: 'userLogined'
+						});
+						api.closeWin();
+					} else {
+						$api.toast('登录失败，请检查手机号和密码~');
+					}
+					$api.removeCls( tag, 'disabled' );
+				});
+			
+			};
+		};
+	};
+
+	
+	function funReg( tag ){
+		var $form = $('.win-login:not(.none)');
+		var isModify = $form.hasClass('modify-frm');
+		if( ! $api.hasCls( tag ,'disabled' ) ){
+			var phone = $('.phone-text', $form).val();
+			var password = $('.password-text', $form).val();
+			var nickname = $('.nickname-text', $form).val();
+			var code = $('.code-text', $form).val();
+			var doPassword = $('.repassword-text', $form).val();
+			if( !phone ){
+				$api.toast( '手机不能为空！' );
+			}else if( ! /^1\d{10}$/.exec( phone )  ){
+				$api.toast( '手机格式有误！( 11位数字 )' );
+			}else if( !nickname ){
+				$api.toast( '昵称不可为空！' );
+			}else if( !code || isNaN(code)){
+				$api.toast( '请输入正确的验证码！' );
+			}else if(  !password  ){
+				$api.toast( '密码不能为空！' );
+			}else if(  !isModify && !doPassword  ){
+				$api.toast( '请确认密码' );
+			}else if( !isModify && password != doPassword  ){
+				$api.toast( '确认密码不一致' );
+			}else{
+				$api.addCls( tag, 'disabled' );
+				setTimeout(function(){
+					$api.removeCls( tag, 'disabled' );
+				},5000);
+				var bodyParam = {
+					userName: nickname,
+					session_id: sendVerify.session_id,
+					phone: phone,
+					password: password,
+					code: code,
+					isNoNeedLogin: true
+				};
+				if (phone === sendVerify.phone && +code !== sendVerify.code) {
+					return $api.toast('验证码输入有误~' + JSON.stringify(sendVerify));
+				}
+				utils.fetch('http://120.26.207.162/bidservice/user' + (isModify ? 'MOD' : 'ADD') + '.php', bodyParam, function (ret, err) {
+					var type = isModify ? '修改' : '注册';
+					if ( ret ) {
+						if (ret.error_code && !ret.error_code === 1) {
+							return $api.toast('验证码输入有误');
+						}
+						if (!isModify) {
+							if (ret[0] && ret[0].autoID) {
+								$api.toast(type + '失败，手机号已注册，请直接登录');
+							}
+							else {
+								$api.toast(type + '成功，请登录');
+							}
+							setTimeout(function () {
+								api.execScript({
+									name: 'login-frm',
+									frameName: 'login-frm',
+									script: 'funPhoneIni( '+phone+' );'
+								});
+							}, 1500);
+						}
+						else {
+							$api.toast(type + '成功，请登录');
+							utils.setStorage( 'userInfo' , bodyParam);
+						}
+						setTimeout(function () {
+							api.closeWin();
+						}, 1000);
+					} else {
+						$api.toast(type + '失败，请稍后再试~');
+					}
+					$api.removeCls( tag, 'disabled' );
+				});
+			}
+		}
+	};
+	
+	function funPhoneIni( ht ){
+		$api.dom('#lo-phone').value = ht;
+	};
+</script>
